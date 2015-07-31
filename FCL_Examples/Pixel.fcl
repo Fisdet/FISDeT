@@ -1,0 +1,33 @@
+FUNCTION_BLOCK dummy
+
+	VAR_INPUT
+		pixel :	 REAL; (* RANGE(0 .. 255) *)
+	END_VAR
+
+	VAR_OUTPUT
+		output : REAL; (* RANGE(-10 .. 260) *)
+	END_VAR
+
+	FUZZIFY pixel
+		TERM dark := (0, 0) (0, 1) (63, 1) (127, 0) ;
+		TERM grey := (63, 0) (127, 1) (127, 1) (192, 0) ;
+		TERM bright := (127, 0) (191, 1) (255, 1) (255, 0) ;
+	END_FUZZIFY
+
+	DEFUZZIFY output
+		TERM darker := 0;
+		TERM greyer := 127;
+		TERM brigther := 255;
+		ACCU:MAX;
+		METHOD:COGS;
+		DEFAULT := 0;
+	END_DEFUZZIFY
+
+	RULEBLOCK first
+		AND:MIN;
+		RULE 0:IF (pixel IS dark) THEN (output IS darker);
+		RULE 1:IF (pixel IS grey) THEN (output IS greyer);
+		RULE 2:IF (pixel IS brigth) THEN (output IS brigther);
+	END_RULEBLOCK
+
+END_FUNCTION_BLOCK
