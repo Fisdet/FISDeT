@@ -1,4 +1,4 @@
-__author__ = 'Pasquadibisceglie-Zaza'
+__author__ = 'Pasquadibisceglie-Zaza-Lovascio'
 
 # Libraries
 import FISDeT as g
