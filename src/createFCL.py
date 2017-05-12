@@ -1,4 +1,4 @@
-__author__ = 'Pasquadibisceglie-Zaza'
+__author__ = 'Pasquadibisceglie-Zaza-Lovascio'
 
 #Libraries
 import FISDeT as g
@@ -43,11 +43,13 @@ def creaFcl():
         j=0
         while j<len(fi.termI):
             if fi.varI[i].getNome()==fi.termI[j].getNomev():
-                if fi.termI[j].getS3()=="" and fi.termI[j].getS4()=="":
+                if fi.termI[j].membership == fi.MEMBERSHIP_SFUN:
                     outFile.write("\t\tTERM "+fi.termI[j].getNomet()+" := (" + fi.termI[j].getS1()+", 0) ("+fi.termI[j].getS2()+", 1) ;\n" )
-                elif fi.termI[j].getS4()=="":
+                elif fi.termI[j].membership == fi.MEMBERSHIP_ZFUN:
+                    outFile.write("\t\tTERM "+fi.termI[j].getNomet()+" := (" + fi.termI[j].getS1()+", 1) ("+fi.termI[j].getS2()+", 0) ;\n" )
+                elif fi.termI[j].membership == fi.MEMBERSHIP_TRIANG:
                     outFile.write("\t\tTERM "+fi.termI[j].getNomet()+" := (" + fi.termI[j].getS1()+", 0) ("+fi.termI[j].getS2()+", 1) ("+fi.termI[j].getS3()+", 0) ;\n" )
-                else:
+                elif fi.termI[j].membership == fi.MEMBERSHIP_TRAP:
                     outFile.write("\t\tTERM "+fi.termI[j].getNomet()+" := (" + fi.termI[j].getS1()+", 0) ("+fi.termI[j].getS2()+", 1) ("+fi.termI[j].getS3()+", 1) ("+ fi.termI[j].getS4()+", 0) ;\n" )
             j=j+1
         outFile.write("\tEND_FUZZIFY\n\n")
@@ -111,5 +113,3 @@ salvato=0
 
 #Connect
 g.menu.connect(g.tastoFcl, QtCore.SIGNAL('clicked()'), creaFcl)
-
-
