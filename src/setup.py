@@ -1,4 +1,4 @@
-__author__ = 'Pasquadibiceglie-Zaza'
+__author__ = 'Pasquadibiceglie-Zaza-Lovascio'
 
 from distutils.core import setup
 import py2exe
@@ -8,7 +8,7 @@ import matplotlib
 _appName = "FISDeT"
 _appVersion = '1.0.0'
 _appDescription = "Fuzzy inference system development tool"
-_authorName = 'Vincenzo Pasquadibisceglie - Gianluca Zaza'
+_authorName = 'Vincenzo Pasquadibisceglie - Gianluca Zaza - Cosimo Lovascio'
 _authorEmail = 'infofisdet@gmail.com'
 _authorURL = 'http://www.fisdet.altervista.org'
 
@@ -48,5 +48,5 @@ setup(
                              'libgthread-2.0-0.dll'],
         }
     },
-    data_files=data_files
+    data_files=data_files, requires=['fuzzy']
 )
