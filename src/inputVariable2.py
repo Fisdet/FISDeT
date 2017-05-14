@@ -305,7 +305,6 @@ def addVar():
     g.chkTrap.setEnabled(True)
     g.chkSFun.setEnabled(True)
     g.chkZFun.setEnabled(True)
-    # g.chkGauss.setEnabled(True)
     plt.xlim(0, 100)
     plt.ylim(0, 1.2)
     plt.savefig(perc + str(contaGraf) + ".png")
@@ -337,32 +336,6 @@ def addVar():
     g.domY.clear()
     g.domX.clear()
     g.inputVariableWidget.show()
-
-
-'''def controlloGauss():
-    if g.chkGauss.isChecked():
-        return 1
-    else:
-        return 0'''
-
-
-'''def controlloTrian():
-    if g.chkTriangolo.isChecked():
-        return 1
-    else:
-        return 0
-
-def controlloSFun():
-    if g.chkSFun.isChecked():
-        return 1
-    else:
-        return 0
-
-def controlloTrap():
-    if g.chkTrap.isChecked():
-        return 1
-    else:
-        return 0'''
 
 
 def generaFunz():
@@ -415,21 +388,6 @@ def generaFunz():
         g.R3.clear()
         g.R4.clear()
         colonna += 130
-    '''elif g.chkGauss.isChecked():
-        g.NomeFuzzy.text()
-        g.R1.text()
-        g.R2.text()
-        g.tastoAzz.show()
-        g.NomeFuzzy.show()
-        g.R1.show()
-        g.R2.show()
-        g.R3.setVisible(False)
-        g.R4.setVisible(False)
-        g.R1.clear()
-        g.R2.clear()
-        g.R3.clear()
-        g.R4.clear()
-        colonna = colonna + 130'''
 
 
 class termine():
@@ -606,7 +564,6 @@ def modVar():
         if (str(g.listaTerminiI.item(g.listaTerminiI.currentRow(), 3).text()) == "") and (
                     str(g.listaTerminiI.item(g.listaTerminiI.currentRow(), 4).text()) == ""):
             g.NomeFuzzy.setVisible(True)
-            # g.chkGauss.setChecked(True)
             g.R1.setVisible(True)
             g.R2.setVisible(True)
             g.R3.setVisible(False)
@@ -765,7 +722,6 @@ def deleteTerm():
         g.chkTrap.setEnabled(True)
         g.chkSFun.setEnabled(True)
         g.chkZFun.setEnabled(True)
-        # g.chkGauss.setEnabled(True)
 
     else:
         nomeTerm = g.listaTerminiI.item(g.listaTerminiI.currentRow(), 0).text()
@@ -825,7 +781,6 @@ def addVariabile():
         g.chkTrap.setEnabled(True)
         g.chkSFun.setEnabled(True)
         g.chkZFun.setEnabled(True)
-        # g.chkGauss.setEnabled(True)
 
         v = variabile()
         v.variabile(str(g.nomeVar.text()))
@@ -884,26 +839,6 @@ def graficiI():
             listaPoly.append(float(str(g.listaTerminiI.item(i, 2).text())))
             y1.append(0)
             graphs.append((listaPoly, y1))
-
-            '''old code
-            # ricavo le coordinate inserite dall'utente e calcolo il punto medio
-            x1 = float(str(g.listaTerminiI.item(i, 1).text()))
-            x2 = float(str(g.listaTerminiI.item(i, 2).text()))
-            xmedio = (x1 + x2) / 2
-
-            # norm definisce una variabile aleatoria normale (con media "loc" e deviazione standard "scale")
-            # rv2 = norm(loc=xmedio, scale=.4)
-
-            rv2 = norm(loc=x1, scale=x2)
-
-            # arange(start, stop, step) crea un array con i valori tra start e stop
-            k = np.arange(float(g.domX.text()),
-                          float(g.domY.text()),
-                          .00111)
-
-            listaGauss.append(k)
-            y2.append(rv2)
-            '''
 
         # se il termine inserito ha una funzione di membership triangolare
         elif g.chkTriangolo.isChecked():
@@ -1121,7 +1056,6 @@ g.widget.connect(g.tastoMenu, QtCore.SIGNAL('clicked()'), home)
 g.widget.connect(g.tastoPiu, QtCore.SIGNAL('clicked()'), addVar)
 g.inputVariableWidget.connect(g.tastoAzz, QtCore.SIGNAL('clicked()'), ControlloW2)
 g.inputVariableWidget.connect(g.tastoAzz2, QtCore.SIGNAL('clicked()'), ControlloW2_2)
-# g.inputVariableWidget.connect(g.chkGauss, QtCore.SIGNAL('clicked()'), generaFunz)
 g.inputVariableWidget.connect(g.chkTrap, QtCore.SIGNAL('clicked()'), generaFunz)
 g.inputVariableWidget.connect(g.chkTriangolo, QtCore.SIGNAL('clicked()'), generaFunz)
 g.inputVariableWidget.connect(g.chkSFun, QtCore.SIGNAL('clicked()'), generaFunz)

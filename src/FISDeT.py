@@ -274,11 +274,6 @@ chkTriangolo.setText("TRIANGULAR")
 chkTriangolo.setStyleSheet('background-color: rgb(241,241,241); color: rgb(61,78,121);')
 chkTriangolo.setChecked(False)
 
-'''chkGauss = QtGui.QRadioButton(inputVariableWidget)
-chkGauss.setGeometry(520, 70, 141, 21)
-chkGauss.setText("GAUSSIAN")
-chkGauss.setStyleSheet('background-color: rgb(241,241,241); color: rgb(61,78,121);')'''
-
 chkTrap = QtGui.QRadioButton(inputVariableWidget)
 chkTrap.setGeometry(520, 90, 141, 21)
 chkTrap.setText("TRAPEZOIDAL")
@@ -295,7 +290,6 @@ chkSFun.setText("S FUNCTION")
 chkSFun.setStyleSheet('background-color: rgb(241,241,241); color: rgb(61,78,121);')
 
 funz_layout.addButton(chkTriangolo)
-# funz_layout.addButton(chkGauss)
 funz_layout.addButton(chkTrap)
 funz_layout.addButton(chkZFun)
 funz_layout.addButton(chkSFun)
@@ -527,11 +521,6 @@ chkTriangolo3.setText("TRIANGULAR")
 chkTriangolo3.setStyleSheet('background-color: rgb(241,241,241); color: rgb(61,78,121);')
 chkTriangolo3.setChecked(False)
 
-'''chkGauss3 = QtGui.QRadioButton(outputVariableWidget)
-chkGauss3.setGeometry(520, 68, 141, 21)
-chkGauss3.setText("GAUSSIAN")
-chkGauss3.setStyleSheet('background-color: rgb(241,241,241); color: rgb(61,78,121);')'''
-
 chkTrap3 = QtGui.QRadioButton(outputVariableWidget)
 chkTrap3.setGeometry(520, 88, 141, 21)
 chkTrap3.setText("TRAPEZOIDAL")
@@ -543,7 +532,6 @@ chkSing3.setText("SINGLETON")
 chkSing3.setStyleSheet('background-color: rgb(241,241,241); color: rgb(61,78,121);')
 
 funz_layout3 = QtGui.QButtonGroup(outputVariableWidget)
-# funz_layout3.addButton(chkGauss3)
 funz_layout3.addButton(chkTriangolo3)
 funz_layout3.addButton(chkTrap3)
 funz_layout3.addButton(chkSing3)

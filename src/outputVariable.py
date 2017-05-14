@@ -36,12 +36,6 @@ layout.addWidget(toolbar)
 layout.addWidget(canvas)
 g.boxGrafico2.setLayout(layout)
 
-#Functions
-'''def controlloGauss():
-    if g.chkGauss.isChecked():
-        return 1
-    else:
-        return 0'''
 
 def controlloTrian():
     if g.chkTriangolo.isChecked():
@@ -103,23 +97,7 @@ def generaFunzO():
         g.R3_3.show()
         g.R4_3.show()
         colonna = colonna + 150
-    '''elif g.chkGauss3.isChecked():
-        g.NomeFuzzy3.text()
-        g.R1_3.text()
-        g.R2_3.text()
-        g.tastoAzz3.show()
-        g.NomeFuzzy3.show()
-        g.R1_3.show()
-        g.R2_3.show()
-        g.R3_3.setVisible(False)
-        g.R4_3.setVisible(False)
-        colonna = colonna + 130'''
 
-'''def controlloGauss_3():
-    if g.chkGauss3.isChecked():
-        return 1
-    else:
-        return 0'''
 
 def controlloSing_3():
     if g.chkSing3.isChecked():
@@ -418,22 +396,15 @@ def addTermO():
     g.tastoAzz3_2.setVisible(False)
     g.tastoAzz3.setVisible(True)
     if modifica == 0:
-        '''if g.chkGauss3.isChecked():
-            g.chkTriangolo3.setEnabled(False)
-            g.chkSing3.setEnabled(False)
-            g.chkTrap3.setEnabled(False)'''
         if g.chkTrap3.isChecked():
             g.chkTriangolo3.setEnabled(False)
             g.chkSing3.setEnabled(False)
-            # g.chkGauss3.setEnabled(False)
         elif g.chkTriangolo3.isChecked():
             g.chkTrap3.setEnabled(False)
             g.chkSing3.setEnabled(False)
-            # g.chkGauss3.setEnabled(False)
         else:
             g.chkTriangolo3.setEnabled(False)
             g.chkTrap3.setEnabled(False)
-            # g.chkGauss3.setEnabled(False)
         flagRestr=1
         g.tabellaO.setItem(contaT,0,QTableWidgetItem(g.NomeFuzzy3.text()))
         g.tabellaO.setItem(contaT,1,QTableWidgetItem(g.R1_3.text()))
@@ -501,7 +472,6 @@ def modVarO():
             g.R1_3.setText(g.tabellaO.item(g.tabellaO.currentRow(),1).text())
         elif (str(g.tabellaO.item(g.tabellaO.currentRow(),3).text()) == "") and (str(g.tabellaO.item(g.tabellaO.currentRow(),4).text()) == ""):
             g.NomeFuzzy3.setVisible(True)
-            # g.chkGauss3.setChecked(True)
             g.R1_3.setVisible(True)
             g.R2_3.setVisible(True)
             g.R3_3.setVisible(False)
@@ -572,7 +542,6 @@ def deleteTermO():
     graficiO()
     g.chkTriangolo3.setEnabled(True)
     g.chkTrap3.setEnabled(True)
-    # g.chkGauss3.setEnabled(True)
     g.chkSing3.setEnabled(True)
     i=0
     cotare=g.listReg.count()
@@ -733,20 +702,6 @@ def ControlloW3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
-            '''elif (controlloGauss_3() == 1):
-                if (is_numberF(str(g.R1_3.text())) == False
-                    or is_numberF(str(g.R2_3.text())) == False
-                    or float(g.R1_3.text()) < float(g.domX3.text())
-                    or float(g.R1_3.text()) > float(g.domY3.text())
-                    or g.R1_3.text() == "" or g.R2_3.text() == "" ):
-
-                    g.msg.setText("Wrong term domain field/empty field ")
-                    g.msg.show()
-                else:
-                    addTermO()
-                    g.labelAddTerm3.setText("ADD TERM:")
-                    g.tastoAzz3.setIcon(g.iconaPiu)
-                    g.tastoAzz3_2.setIcon(g.iconaPiu)'''
         elif (controlloTrian_3() == 1):
             if (is_numberF(str(g.R1_3.text())) == False or is_numberF(str(g.R2_3.text())) == False or is_numberF(
                         str(g.R3_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
@@ -796,19 +751,6 @@ def ControlloW3_3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
-            '''
-            elif (controlloGauss_3() == 1):
-                if (is_numberF(str(g.R1_3.text())) == False or is_numberF(str(g.R2_3.text())) == False or float(
-                            g.R1_3.text()) < float(g.domX3.text()) or float(g.R2_3.text()) > float(
-                            g.domY3.text()) or g.R1_3.text() == "" or g.R2_3.text() == "" or float(g.R1_3.text()) > float(
-                            g.R2_3.text())):
-                    g.msg.setText("Wrong term domain field/empty field ")
-                    g.msg.show()
-                else:
-                    modTermO()
-                    g.labelAddTerm3.setText("ADD TERM:")
-                    g.tastoAzz3.setIcon(g.iconaPiu)
-                    g.tastoAzz3_2.setIcon(g.iconaPiu)'''
         elif (controlloTrian_3() == 1):
             if (is_numberF(str(g.R1_3.text())) == False or is_numberF(str(g.R2_3.text())) == False or is_numberF(
                         str(g.R3_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
@@ -843,12 +785,10 @@ def ControlloW3_3():
 def graficiO():
         global y1
         global y2
-        global listaGaussI
         global listaTrianI
         global rv2
         global contaGraf
         listaPoly=[]
-        listaGauss=[]
         listaSing=[]
         y1=[]
         y2=[]
@@ -867,29 +807,6 @@ def graficiO():
             # se il termine inserito ha una funzione di membership singleton
             if str(g.tabellaO.item(i,2).text()) == "" and str(g.tabellaO.item(i,3).text()) == "" and str(g.tabellaO.item(i,4).text()) == "":
                 listaSing.append(float(str(g.tabellaO.item(i,1).text())))
-
-            # se il termine inserito ha una funzione di membership gaussiana
-            elif str(g.tabellaO.item(i,3).text()) == "" and str(g.tabellaO.item(i,4).text()) == "":
-
-                x1 = float(str(g.tabellaO.item(i,1).text()))
-                x2 = float(str(g.tabellaO.item(i,2).text()))
-                xmedio = (x1 + x2) / 2
-
-                # norm definisce una variabile aleatoria normale (con media "loc" e deviazione standard "scale")
-                rv2 = norm(loc=x1, scale=x2)
-
-                # arange(start, stop, step) crea un array con i valori tra start e stop
-                '''
-                k = (np.arange(float(str(g.tabellaO.item(i,1).text())),
-                               float(str(g.tabellaO.item(i,2).text())),
-                               .00111))'''
-
-                k = np.arange(float(g.domX3.text()),
-                              float(g.domY3.text()),
-                              .00111)
-
-                listaGauss.append(k)
-                y2.append(rv2)
 
             # se il termine inserito ha una funzione di membership triangolare
             elif str(g.tabellaO.item(i,4).text()) == "":
@@ -921,16 +838,11 @@ def graficiO():
         ax.vlines(listaSing, 0, 1)
         ax.plot(listaPoly, y1)
 
-        while i < len(listaGauss):
-            ax.plot(listaGauss[i], y2[i].pdf(listaGauss[i]))
-            i += 1
-
         canvas.draw()
         contaGraf += 1
 
         del listaPoly[0:len(listaPoly)]
         del y1[0:len(y1)]
-        del listaGauss[0:len(listaGauss)]
         del y2[0:len(y2)]
 
 def classificazione():
@@ -944,7 +856,6 @@ def classificazione():
                 g.chkTrap3.setVisible(False)
                 g.chkSing3.setVisible(False)
                 g.chkTriangolo3.setVisible(False)
-                # g.chkGauss3.setVisible(False)
                 g.domX3.setVisible(False)
                 g.domY3.setVisible(False)
                 g.boxGrafico2.setVisible(False)
@@ -1001,7 +912,6 @@ def classificazione():
                 g.chkTrap3.setVisible(False)
                 g.chkSing3.setVisible(False)
                 g.chkTriangolo3.setVisible(False)
-                # g.chkGauss3.setVisible(False)
                 g.domX3.setVisible(False)
                 g.domY3.setVisible(False)
                 g.boxGrafico2.setVisible(False)
@@ -1056,8 +966,6 @@ def classificazione():
                 g.chkTrap3.setVisible(True)
                 g.chkSing3.setVisible(True)
                 g.chkTriangolo3.setVisible(True)
-                # g.chkGauss3.setVisible(True)
-                # g.chkGauss3.setEnabled(True)
                 g.chkTrap3.setEnabled(True)
                 g.chkTriangolo3.setEnabled(True)
                 g.chkSing3.setEnabled(True)
@@ -1125,11 +1033,9 @@ g.menu.connect(g.tastoOutput, QtCore.SIGNAL('clicked()'), menuWidg3)
 g.outputVariableWidget.connect(g.tastoMenu3, QtCore.SIGNAL('clicked()'), home3)
 g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), caricaDef)
 g.outputVariableWidget.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), caricaDef)
-# g.outputVariableWidget.connect(g.chkGauss3, QtCore.SIGNAL('clicked()'),caricaDef)
 g.outputVariableWidget.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), caricaDef)
 g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), generaFunzO)
 g.outputVariableWidget.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), generaFunzO)
-# g.outputVariableWidget.connect(g.chkGauss3, QtCore.SIGNAL('clicked()'),generaFunzO)
 g.outputVariableWidget.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), generaFunzO)
 g.outputVariableWidget.connect(g.tastoAgg3, QtCore.SIGNAL('clicked()'), addVarO)
 g.outputVariableWidget.connect(g.tastoAzz3, QtCore.SIGNAL('clicked()'), ControlloW3)

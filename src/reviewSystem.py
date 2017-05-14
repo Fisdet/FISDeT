@@ -72,17 +72,9 @@ def review():
         elif g.tabellaO.item(i, 1).text() != "" and g.tabellaO.item(i, 2).text() != "" \
                 and g.tabellaO.item(i, 3).text() != "" and g.tabellaO.item(i, 4).text() == "":
 
-           g.listWvarO.addItem(
+            g.listWvarO.addItem(
                 str(g.tabellaO.item(i, 0).text()) + " (" + str(g.tabellaO.item(i, 1).text()) + ", 0) " + " (" + str(
                     g.tabellaO.item(i, 2).text()) + ", 1) " + " (" + str(g.tabellaO.item(i, 3).text()) + ", 0) ")
-
-        #gaussiana
-        elif g.tabellaO.item(i, 1).text() != "" and g.tabellaO.item(i, 2).text() != "" \
-                and g.tabellaO.item(i,3).text() == "" and g.tabellaO.item(i, 4).text() == "":
-
-            g.listWvarO.addItem(
-                str(g.tabellaO.item(i, 0).text()) + " (mean: " + str(g.tabellaO.item(i, 1).text()) + ", sd: " + str(
-                    g.tabellaO.item(i, 2).text()) + ") ")
 
         #singleton
         else:
