@@ -80,7 +80,12 @@ def creaFcl():
     else:
             outFile.write("\t\tACCU:MAX;\n")
             outFile.write("\t\tMETHOD:"+ g.comboDefuzzy.currentText()+";\n")
-    outFile.write("\t\tDEFAULT := 0;\n")
+
+    if g.defaultValueText.isVisible() and g.defaultValueText.text():
+        outFile.write("\t\tDEFAULT := " + str(g.defaultValueText.text()) + ";\n")
+    else:
+        outFile.write("\t\tDEFAULT := 0;\n")
+
     outFile.write("\tEND_DEFUZZIFY\n\n")
     outFile.write("\tRULEBLOCK first\n")
     outFile.write("\t\tAND:MIN;\n")

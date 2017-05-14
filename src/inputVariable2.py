@@ -674,7 +674,7 @@ def deleteVariable():
         g.tabellaI.clearSelection()
     else:
         if ru.controlloRegole == 1:
-            warning = QtGui.QMessageBox.information(g.widget3, 'Warning',
+            warning = QtGui.QMessageBox.information(g.outputVariableWidget, 'Warning',
                                                     'Do you really want to delete the variable? If confirmed you will be lost all rules',
                                                     QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
             if warning == QtGui.QMessageBox.Yes:

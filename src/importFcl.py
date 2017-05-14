@@ -218,6 +218,16 @@ def importFcl():
                     g.comboDefuzzy.addItem("MaxRight")
                 line = outFile.readline()
             elif "DEFAULT" in line:
+                # line = outFile.readline()
+                default_index = line.find("DEFAULT")
+                default_value = line[default_index:]
+                default_value = default_value[:default_value.index(";")]
+
+                # espressione regolare per recuperare il valore di default dalla stringa
+                import re as regex
+                default_value = regex.sub("( )*(DEFAULT)( |:=)+", "", default_value)
+
+                g.defaultValueText.setText(default_value)
                 line = outFile.readline()
             else:
                 idx13 = line.find(" ")

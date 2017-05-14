@@ -218,7 +218,7 @@ def addTermOClass():
         g.msg.show()
     else:
         if flagMod==1:
-            warning=QtGui.QMessageBox.information(g.widget3, 'Warning', 'Are you sure you want to add a new class to the problem ?If you confirm you will change the number of classes', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
+            warning=QtGui.QMessageBox.information(g.outputVariableWidget, 'Warning', 'Are you sure you want to add a new class to the problem ?If you confirm you will change the number of classes', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
             if warning == QtGui.QMessageBox.Yes:
                 g.tastoAzz3Class.setIcon(g.iconaPiu)
                 g.labelAddTerm3.setText("ADD TERM:")
@@ -307,7 +307,7 @@ def deleteTermOClass():
         print "selectedItems", item.text()
         flag=1
  if flagMod==1:
-        warning=QtGui.QMessageBox.information(g.widget3, 'Warning', 'Are you sure you want to delete the class of the problem ?If you confirm you will change the number of classes', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
+        warning=QtGui.QMessageBox.information(g.outputVariableWidget, 'Warning', 'Are you sure you want to delete the class of the problem ?If you confirm you will change the number of classes', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
         if warning == QtGui.QMessageBox.Yes:
             if flag==0:
                 g.msg.setText("Invalid selected row/Empty list")
@@ -547,7 +547,7 @@ def modVarO():
         temp = g.NomeFuzzy3.text()
         g.tastoAzz3.setVisible(False)
         g.tastoAzz3_2.setVisible(True)
-        g.widget3.show()
+        g.outputVariableWidget.show()
 
 def deleteTermO():
  global contaT
@@ -665,7 +665,7 @@ def home3():
         g.R2_3.clear()
         g.R3_3.clear()
         g.R4_3.clear()
-        g.widget3.close()
+        g.outputVariableWidget.close()
         g.menu.show()
 
 def menuWidg3():
@@ -684,13 +684,13 @@ def menuWidg3():
  else:
     if g.chkclass.isChecked()==True:
         g.menu.close()
-        g.widget3.show()
+        g.outputVariableWidget.show()
     else:
         graficiO()
         g.menu.close()
-        g.widget3.show()
+        g.outputVariableWidget.show()
  g.menu.close()
- g.widget3.show()
+ g.outputVariableWidget.show()
 
 def is_numberF(s):
     try:
@@ -939,7 +939,7 @@ def classificazione():
 
     if g.chkclass.isChecked()==True:
         if inp.flagWarning==0:
-            warning=QtGui.QMessageBox.information(g.widget3, 'Warning', 'Do you really want to change the type? If confirmed you will be lost all data outuput', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
+            warning=QtGui.QMessageBox.information(g.outputVariableWidget, 'Warning', 'Do you really want to change the type? If confirmed you will be lost all data outuput', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
             if warning==QtGui.QMessageBox.Yes :
                 g.chkTrap3.setVisible(False)
                 g.chkSing3.setVisible(False)
@@ -951,6 +951,8 @@ def classificazione():
                 g.comboDefuzzy.setVisible(False)
                 g.NomeFuzzy3.setVisible(True)
                 g.NomeFuzzy3.setGeometry(85, 175, 157, 21)
+                g.labelDefault.setVisible(True)
+                g.defaultValueText.setVisible(True)
                 g.labelNumClass.setVisible(True)
                 g.labelDefuzzy.setVisible(False)
                 g.labelNum.setVisible(True)
@@ -1006,6 +1008,8 @@ def classificazione():
                 g.comboDefuzzy.setVisible(False)
                 g.NomeFuzzy3.setVisible(True)
                 g.NomeFuzzy3.setGeometry(85, 175, 157, 21)
+                g.labelDefault.setVisible(True)
+                g.defaultValueText.setVisible(True)
                 g.labelNumClass.setVisible(True)
                 g.labelDefuzzy.setVisible(False)
                 g.labelNum.setVisible(True)
@@ -1047,7 +1051,7 @@ def classificazione():
                 flagMod=1
     else:
         if inp.flagWarning==0:
-            warning=QtGui.QMessageBox.information(g.widget3, 'WARNING', 'Do you really want to change the type? \nIf confirmed you will be lost all data outuput', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
+            warning=QtGui.QMessageBox.information(g.outputVariableWidget, 'WARNING', 'Do you really want to change the type? \nIf confirmed you will be lost all data outuput', QtGui.QMessageBox.No | QtGui.QMessageBox.Yes)
             if warning==QtGui.QMessageBox.Yes :
                 g.chkTrap3.setVisible(True)
                 g.chkSing3.setVisible(True)
@@ -1063,6 +1067,8 @@ def classificazione():
                 g.comboDefuzzy.setVisible(True)
                 g.NomeFuzzy3.setVisible(False)
                 g.NomeFuzzy3.setGeometry(85, 160, 157, 21)
+                g.labelDefault.setVisible(False)
+                g.defaultValueText.setVisible(False)
                 g.labelDefuzzy.setVisible(True)
                 g.tastoAzz3.setVisible(False)
                 g.labelNumClass.setVisible(False)
@@ -1116,22 +1122,22 @@ flagRestr=0
 
 #Connect
 g.menu.connect(g.tastoOutput, QtCore.SIGNAL('clicked()'), menuWidg3)
-g.widget3.connect(g.tastoMenu3, QtCore.SIGNAL('clicked()'), home3)
-g.widget3.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), caricaDef)
-g.widget3.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'),caricaDef)
-# g.widget3.connect(g.chkGauss3, QtCore.SIGNAL('clicked()'),caricaDef)
-g.widget3.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), caricaDef)
-g.widget3.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), generaFunzO)
-g.widget3.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), generaFunzO)
-# g.widget3.connect(g.chkGauss3, QtCore.SIGNAL('clicked()'),generaFunzO)
-g.widget3.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), generaFunzO)
-g.widget3.connect(g.tastoAgg3, QtCore.SIGNAL('clicked()'),addVarO)
-g.widget3.connect(g.tastoAzz3,QtCore.SIGNAL('clicked()'), ControlloW3)
-g.widget3.connect(g.tastoModTermO,QtCore.SIGNAL('clicked()'), modVarO)
-g.widget3.connect(g.tastoAzz3_2,QtCore.SIGNAL('clicked()'), ControlloW3_3)
-g.widget3.connect(g.tastoDelTermO,QtCore.SIGNAL('clicked()'), deleteTermO)
-g.widget3.connect(g.chkclass,QtCore.SIGNAL('clicked()'), classificazione)
-g.widget3.connect(g.tastoAzz3Class,QtCore.SIGNAL('clicked()'), addTermOClass)
-g.widget3.connect(g.tastoDelTermOClass,QtCore.SIGNAL('clicked()'), deleteTermOClass)
-g.widget3.connect(g.tastoModTermOClass,QtCore.SIGNAL('clicked()'), modTermOClass)
+g.outputVariableWidget.connect(g.tastoMenu3, QtCore.SIGNAL('clicked()'), home3)
+g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), caricaDef)
+g.outputVariableWidget.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), caricaDef)
+# g.outputVariableWidget.connect(g.chkGauss3, QtCore.SIGNAL('clicked()'),caricaDef)
+g.outputVariableWidget.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), caricaDef)
+g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), generaFunzO)
+g.outputVariableWidget.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), generaFunzO)
+# g.outputVariableWidget.connect(g.chkGauss3, QtCore.SIGNAL('clicked()'),generaFunzO)
+g.outputVariableWidget.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), generaFunzO)
+g.outputVariableWidget.connect(g.tastoAgg3, QtCore.SIGNAL('clicked()'), addVarO)
+g.outputVariableWidget.connect(g.tastoAzz3, QtCore.SIGNAL('clicked()'), ControlloW3)
+g.outputVariableWidget.connect(g.tastoModTermO, QtCore.SIGNAL('clicked()'), modVarO)
+g.outputVariableWidget.connect(g.tastoAzz3_2, QtCore.SIGNAL('clicked()'), ControlloW3_3)
+g.outputVariableWidget.connect(g.tastoDelTermO, QtCore.SIGNAL('clicked()'), deleteTermO)
+g.outputVariableWidget.connect(g.chkclass, QtCore.SIGNAL('clicked()'), classificazione)
+g.outputVariableWidget.connect(g.tastoAzz3Class, QtCore.SIGNAL('clicked()'), addTermOClass)
+g.outputVariableWidget.connect(g.tastoDelTermOClass, QtCore.SIGNAL('clicked()'), deleteTermOClass)
+g.outputVariableWidget.connect(g.tastoModTermOClass, QtCore.SIGNAL('clicked()'), modTermOClass)
 

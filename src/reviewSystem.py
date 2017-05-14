@@ -89,6 +89,8 @@ def review():
             g.listWvarO.addItem(str(g.tabellaO.item(i, 0).text()) + " " + str(g.tabellaO.item(i, 1).text()))
         i += 1
 
+    if g.defaultValueText.text():
+        g.listWvarO.addItem("DEFAULT: " + str(g.defaultValueText.text()))
 
 def menu5():
     g.widget5.close()
