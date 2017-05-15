@@ -300,9 +300,6 @@ def import_data():
                     # recupero il valore di input dal file csv
                     input_val[fi.varI[i].getNome()] = float(row[i])
 
-                    # se il valore della variabile e' zero salta completamente la fase di fuzzificazione!
-                    # if float(row[i]) != 0:
-
                     j = 0
 
                     # effettua la fuzzificazione
@@ -320,12 +317,18 @@ def import_data():
                 # esegue l'inferenza per usando le regole
                 system.inference()
                 z = 0
-                results = []
+                final_result = 0
                 while z < g.listReg.count():
 
                     # scrive i risultati per tutte le regole sul file
                     result = round(system.rules['first.' + str(z)].operator.__call__(), 2)
-                    results.append(result)
+                    if final_result < result:
+                        final_result = result
+
+                        # trova il nome della classe
+                        idx55 = str(system.rules['first.' + str(z)].adjective[0].getName(system)).find(",")
+                        class_name = str(system.rules['first.' + str(z)].adjective[0].getName(system))[2:idx55]
+
                     out_file.write(str(result))
 
                     print str(result) + "; ",
@@ -333,8 +336,6 @@ def import_data():
                     z += 1
 
                 # controllo sul valore finale di classificazione
-                final_result = max(results)
-
                 # se nessuna regola e' stata attivata i valori di appartenenza sono tutti pari a zero
                 if final_result == 0:
                     try:
@@ -342,6 +343,8 @@ def import_data():
                         final_result = 0.0
                     except ValueError:
                         final_result = default_value
+                else:
+                    final_result = class_name
 
                 out_file.write(str(final_result) + ";")
 
