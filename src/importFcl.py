@@ -21,6 +21,8 @@ import rule as ru
 import inputVariable2 as inp
 import createFCL as cr
 
+import re as regex
+
 
 # Functions
 def importFcl():
@@ -339,18 +341,20 @@ def importFcl():
                 fo.contaT = fo.contaT + 1
                 c = c + 1
                 line = outFile.readline()
+
         while line:
-            if "END_DEFUZZIFY\n" in line:
+            line_nospace = regex.sub("[ \n\t]+", "", line)
+            if line_nospace == "":
                 line = outFile.readline()
-            elif "RULEBLOCK first\n" in line:
+            elif "END_DEFUZZIFY" in line_nospace:
                 line = outFile.readline()
-            elif "END_FUNCTION_BLOCK\n" in line:
+            elif "RULEBLOCK" in line_nospace:
+                line = outFile.readline()
+            elif "END_FUNCTION_BLOCK" in line_nospace:
                 break
-            elif "END_RULEBLOCK\n" in line:
+            elif "AND:MIN;" in line_nospace:
                 line = outFile.readline()
-            elif "AND:MIN;\n" in line:
-                line = outFile.readline()
-            elif "(*ACCU:MAX;*)\n" in line:
+            elif "(*ACCU:MAX;*)" in line_nospace:
                 line = outFile.readline()
             else:
                 idx25 = line.find(":")
@@ -369,9 +373,7 @@ def importFcl():
 
         i = 0
         while i < len(listaRegole):
-            if listaRegole[i] == "":
-                print "vuoto"
-            else:
+            if listaRegole[i] != "":
                 g.listReg.addItem(listaRegole[i])
             i = i + 1
         del listaRegole[0:len(listaRegole)]
