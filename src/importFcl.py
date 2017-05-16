@@ -21,7 +21,7 @@ import rule as ru
 import inputVariable2 as inp
 import createFCL as cr
 
-import re as regex
+import re
 
 
 # Functions
@@ -30,8 +30,8 @@ def importFcl():
 
     filename = QtGui.QFileDialog(g.menu)
     ok = filename.getOpenFileName(g.menu, 'Open File', '', '(*.fcl)')
-    f = str(ok)
-    inf.percorso = f
+    complete_path = str(ok)
+    inf.percorso = complete_path
     try:
         g.tabellaO.clear()
         fo.contaT = 0
@@ -220,7 +220,6 @@ def importFcl():
                     g.comboDefuzzy.addItem("MaxRight")
                 line = outFile.readline()
             elif "DEFAULT" in line:
-                # line = outFile.readline()
                 default_index = line.find("DEFAULT")
                 default_value = line[default_index:]
                 default_value = default_value[:default_value.index(";")]
@@ -343,7 +342,7 @@ def importFcl():
                 line = outFile.readline()
 
         while line:
-            line_nospace = regex.sub("[ \n\t]+", "", line)
+            line_nospace = re.sub("[ \n\t]+", "", line)
             if line_nospace == "":
                 line = outFile.readline()
             elif "END_DEFUZZIFY" in line_nospace:
