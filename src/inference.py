@@ -254,110 +254,111 @@ def import_data():
         system = fuzzy.storage.fcl.Reader.Reader().load_from_file(percorso)
         filename = QtGui.QFileDialog(g.testWidget)
         ok = filename.getOpenFileName(g.testWidget, 'Open File', '', '(*.csv)')
-        f = str(ok)
-        perc2 = os.path.dirname(f)
-        out_file = open(perc2 + "/Log-" + orario.strftime("%d-%m-%Y") + "-" + orario.strftime("%H.%M.%S") + ".csv", "a")
-        input_val = {}
-        cr = open(str(f), "rU")
-        reader = csv.reader(cr)
-        for row in reader:
-            print row
-        i = 0
-        while i < len(fi.varI):
-            z = 0
-            cont = 0
-            while z < len(fi.termI):
-                if fi.varI[i].getNome() == fi.termI[z].getNomev():
-                    cont = cont + 1
-                z = z + 1
-            print "coco"
-            print cont
-            if cont > 0:
-                j = 0
-                system.fuzzify(input_val)
-                while j < len(fi.termI):
-                    if fi.varI[i].getNome() == fi.termI[j].getNomev():
-                        out_file.write(fi.varI[i].getNome() + "-" + fi.termI[j].getNomet() + ';')
-                    j += 1
-            i += 1
-        i = 0
-        while i < g.listReg.count():
-            idx55 = str(system.rules['first.' + str(i)].adjective[0].getName(system)).find(",")
-            trovaU = str(system.rules['first.' + str(i)].adjective[0].getName(system))[2:idx55]
-            out_file.write("RULE " + str(i) + '-' + trovaU + ';')
-            i += 1
-        out_file.write("FINAL_RESULT;")
-        out_file.write('\n')
-        if len(row) == len(fi.varI):
-            cr = open(str(f), "rU")
+        complete_path = str(ok)
+        if complete_path != "":
+            perc2 = os.path.dirname(complete_path)
+            out_file = open(perc2 + "/Log-" + orario.strftime("%d-%m-%Y") + "-" + orario.strftime("%H.%M.%S") + ".csv", "a")
+            input_val = {}
+            cr = open(str(complete_path), "rU")
             reader = csv.reader(cr)
-
-            # in questo punto effettua l'inferenza per tutti i dati
             for row in reader:
-                i = 0
-                while i < len(fi.varI):
-
-                    # recupero il valore di input dal file csv
-                    input_val[fi.varI[i].getNome()] = float(row[i])
-
+                print row
+            i = 0
+            while i < len(fi.varI):
+                z = 0
+                cont = 0
+                while z < len(fi.termI):
+                    if fi.varI[i].getNome() == fi.termI[z].getNomev():
+                        cont = cont + 1
+                    z = z + 1
+                print "coco"
+                print cont
+                if cont > 0:
                     j = 0
-
-                    # effettua la fuzzificazione
                     system.fuzzify(input_val)
                     while j < len(fi.termI):
                         if fi.varI[i].getNome() == fi.termI[j].getNomev():
-
-                            # scrive il risultato sul file per la corrispondente variabile
-                            out_file.write(str(round(system.variables[fi.varI[i].getNome()]
-                                                     .adjectives[fi.termI[j].getNomet()]
-                                                     .getMembership(), 2)) + ';')
+                            out_file.write(fi.varI[i].getNome() + "-" + fi.termI[j].getNomet() + ';')
                         j += 1
-                    i += 1
+                i += 1
+            i = 0
+            while i < g.listReg.count():
+                idx55 = str(system.rules['first.' + str(i)].adjective[0].getName(system)).find(",")
+                trovaU = str(system.rules['first.' + str(i)].adjective[0].getName(system))[2:idx55]
+                out_file.write("RULE " + str(i) + '-' + trovaU + ';')
+                i += 1
+            out_file.write("FINAL_RESULT;")
+            out_file.write('\n')
+            if len(row) == len(fi.varI):
+                cr = open(str(complete_path), "rU")
+                reader = csv.reader(cr)
 
-                # esegue l'inferenza per usando le regole
-                system.inference()
-                z = 0
-                final_result = 0
-                while z < g.listReg.count():
+                # in questo punto effettua l'inferenza per tutti i dati
+                for row in reader:
+                    i = 0
+                    while i < len(fi.varI):
 
-                    # scrive i risultati per tutte le regole sul file
-                    result = round(system.rules['first.' + str(z)].operator.__call__(), 2)
-                    if final_result < result:
-                        final_result = result
+                        # recupero il valore di input dal file csv
+                        input_val[fi.varI[i].getNome()] = float(row[i])
 
-                        # trova il nome della classe
-                        idx55 = str(system.rules['first.' + str(z)].adjective[0].getName(system)).find(",")
-                        class_name = str(system.rules['first.' + str(z)].adjective[0].getName(system))[2:idx55]
+                        j = 0
 
-                    out_file.write(str(result))
+                        # effettua la fuzzificazione
+                        system.fuzzify(input_val)
+                        while j < len(fi.termI):
+                            if fi.varI[i].getNome() == fi.termI[j].getNomev():
 
-                    print str(result) + "; ",
-                    out_file.write(';')
-                    z += 1
+                                # scrive il risultato sul file per la corrispondente variabile
+                                out_file.write(str(round(system.variables[fi.varI[i].getNome()]
+                                                         .adjectives[fi.termI[j].getNomet()]
+                                                         .getMembership(), 2)) + ';')
+                            j += 1
+                        i += 1
 
-                # controllo sul valore finale di classificazione
-                # se nessuna regola e' stata attivata i valori di appartenenza sono tutti pari a zero
-                if final_result == 0:
-                    try:
-                        float(default_value)
-                        final_result = 0.0
-                    except ValueError:
-                        final_result = default_value
-                else:
-                    final_result = class_name
+                    # esegue l'inferenza per usando le regole
+                    system.inference()
+                    z = 0
+                    final_result = 0
+                    while z < g.listReg.count():
 
-                out_file.write(str(final_result) + ";")
+                        # scrive i risultati per tutte le regole sul file
+                        result = round(system.rules['first.' + str(z)].operator.__call__(), 2)
+                        if final_result < result:
+                            final_result = result
 
-                print '\n'
-                out_file.write('\n')
-                g.picG_6.setVisible(True)
-                g.picR_6.setVisible(False)
-                g.msg.setText("Inference completed")
+                            # trova il nome della classe
+                            idx55 = str(system.rules['first.' + str(z)].adjective[0].getName(system)).find(",")
+                            class_name = str(system.rules['first.' + str(z)].adjective[0].getName(system))[2:idx55]
+
+                        out_file.write(str(result))
+
+                        print str(result) + "; ",
+                        out_file.write(';')
+                        z += 1
+
+                    # controllo sul valore finale di classificazione
+                    # se nessuna regola e' stata attivata i valori di appartenenza sono tutti pari a zero
+                    if final_result == 0:
+                        try:
+                            float(default_value)
+                            final_result = 0.0
+                        except ValueError:
+                            final_result = default_value
+                    else:
+                        final_result = class_name
+
+                    out_file.write(str(final_result) + ";")
+
+                    print '\n'
+                    out_file.write('\n')
+                    g.picG_6.setVisible(True)
+                    g.picR_6.setVisible(False)
+                    g.msg.setText("Inference completed\nThe results are saved in the same data folder")
+                    g.msg.show()
+            else:
+                out_file.write("\nERROR: invalid CSV")
+                g.msg.setText("Invalid dataset")
                 g.msg.show()
-        else:
-            out_file.write("\nERROR: invalid CSV")
-            g.msg.setText("Invalid dataset")
-            g.msg.show()
     except IOError, ioex:
         g.msg.setText(os.strerror(ioex.errno))
         g.msg.show()

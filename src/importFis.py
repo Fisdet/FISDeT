@@ -248,9 +248,15 @@ def importFis():
             g.picG_1.setVisible(True)
             g.picG_2.setVisible(True)
             g.picG_3.setVisible(True)
+            g.picG_4.setVisible(False)
+            g.picG_6.setVisible(False)
+
             g.picR_1.setVisible(False)
             g.picR_2.setVisible(False)
             g.picR_3.setVisible(False)
+            g.picR_4.setVisible(True)
+            g.picR_6.setVisible(True)
+
         except IOError, ioex:
             print 'errno:', ioex.errno
             print 'err code:', errno.errorcode[ioex.errno]
