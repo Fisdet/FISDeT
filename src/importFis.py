@@ -14,247 +14,248 @@ import errno
 import os
 import rule
 
+
 def importFis():
     filename = QtGui.QFileDialog(g.menu)
     ok = filename.getOpenFileName(g.menu, 'Open File', '', '(*.fis)')
     complete_path = str(ok)
-    inf.percorso = complete_path
 
-    try:
-        g.tabellaO.clear()
-        fo.contaT = 0
-        out_file = open(inf.percorso, "r")
-        fis_string = out_file.read()
-        out_file.close()
-        importFcl.azzera()
+    if complete_path != "":
+        inf.percorso = complete_path
+        try:
+            g.tabellaO.clear()
+            fo.contaT = 0
+            out_file = open(inf.percorso, "r")
+            fis_string = out_file.read()
+            out_file.close()
+            importFcl.azzera()
 
-        # lettura della prima parte del FIS [System]
-        # impostazione delle variabili utili alla lettura
+            # lettura della prima parte del FIS [System]
+            # impostazione delle variabili utili alla lettura
 
-        # numero variabili di input
-        num_input = fis_string[fis_string.find("Ninputs"):]
-        num_input = num_input[:num_input.find("\n")]
-        num_input = re.sub("( )*(Ninputs)( |=)+", "", num_input)
+            # numero variabili di input
+            num_input = fis_string[fis_string.find("Ninputs"):]
+            num_input = num_input[:num_input.find("\n")]
+            num_input = re.sub("( )*(Ninputs)( |=)+", "", num_input)
 
-        # numero variabili di output (FISDeT 2.5 permette una sola variabile di output)
-        num_output = fis_string[fis_string.find("Noutputs"):]
-        num_output = num_output[:num_output.find("\n")]
-        num_output = re.sub("( )*(Noutputs)( |=)+", "", num_output)
+            # numero variabili di output (FISDeT 2.5 permette una sola variabile di output)
+            num_output = fis_string[fis_string.find("Noutputs"):]
+            num_output = num_output[:num_output.find("\n")]
+            num_output = re.sub("( )*(Noutputs)( |=)+", "", num_output)
 
-        # numero di regole
-        num_rule = fis_string[fis_string.find("Nrules"):]
-        num_rule = num_rule[:num_rule.find("\n")]
-        num_rule = re.sub("( )*(Nrules)( |=)+", "", num_rule)
+            # numero di regole
+            num_rule = fis_string[fis_string.find("Nrules"):]
+            num_rule = num_rule[:num_rule.find("\n")]
+            num_rule = re.sub("( )*(Nrules)( |=)+", "", num_rule)
 
-        # matrice contenente per ogni variabile il corrispondente array di termin
-        # E' usata per la generazione delle regole
-        var_term_matrix = []
+            # matrice contenente per ogni variabile il corrispondente array di termin
+            # E' usata per la generazione delle regole
+            var_term_matrix = []
 
-        # lettura delle variabili di input
-        i = 1
-        while i < int(num_input) + 1:
-            tag = "[Input" + str(i) + "]"
-            input_var = fis_string[fis_string.find(tag):]
-            input_var = input_var[:input_var.find("\n\n")]
+            # lettura delle variabili di input
+            i = 1
+            while i < int(num_input) + 1:
+                tag = "[Input" + str(i) + "]"
+                input_var = fis_string[fis_string.find(tag):]
+                input_var = input_var[:input_var.find("\n\n")]
 
-            # lettura del nome
-            name_var = input_var[input_var.find("Name"):]
-            name_var = name_var[:name_var.find("\n")]
-            name_var = re.sub("( )*(Name)([ =]+)", "", name_var).replace("\'", "")
+                # lettura del nome
+                name_var = input_var[input_var.find("Name"):]
+                name_var = name_var[:name_var.find("\n")]
+                name_var = re.sub("( )*(Name)([ =]+)", "", name_var).replace("\'", "")
 
-            input_variable = fi.variabile()
-            input_variable.variabile(name_var)
-            fi.varI.append(input_variable)
+                input_variable = fi.variabile()
+                input_variable.variabile(name_var)
+                fi.varI.append(input_variable)
 
-            # lettura del range (dominio)
-            range_var = input_var[input_var.find("Range"):]
-            range_var = range_var[:range_var.find("\n")]
-            range_var = re.sub("( )*(Range)([ =]+)", "", range_var).\
-                replace("[", "").replace("]", "").\
-                split(",", 1)
+                # lettura del range (dominio)
+                range_var = input_var[input_var.find("Range"):]
+                range_var = range_var[:range_var.find("\n")]
+                range_var = re.sub("( )*(Range)([ =]+)", "", range_var).\
+                    replace("[", "").replace("]", "").\
+                    split(",", 1)
 
-            # controllo su 'active'
-            active = input_var[input_var.find("Active"):]
-            active = active[:active.find("\n")]
-            active = re.sub("( )*(Active)([ =]+)", "", active).replace("\'", "")
+                # controllo su 'active'
+                active = input_var[input_var.find("Active"):]
+                active = active[:active.find("\n")]
+                active = re.sub("( )*(Active)([ =]+)", "", active).replace("\'", "")
 
-            # lista di termini usata per la generazione delle regole
-            term_list = []
+                # lista di termini usata per la generazione delle regole
+                term_list = []
 
-            if active == "yes":
+                if active == "yes":
 
-                # lettura del numero di termini
-                term_num = input_var[input_var.find("NMFs"):]
-                term_num = term_num[:term_num.find("\n")]
-                term_num = re.sub("( )*(NMFs)([ =]+)", "", term_num)
+                    # lettura del numero di termini
+                    term_num = input_var[input_var.find("NMFs"):]
+                    term_num = term_num[:term_num.find("\n")]
+                    term_num = re.sub("( )*(NMFs)([ =]+)", "", term_num)
 
-                # lettura dei termini
-                j = 1
-                while j < int(term_num) + 1:
-                    tag = "MF" + str(j)
-                    input_term = input_var[input_var.find(tag):]
-                    input_term = input_term[:input_term.find("\n")]
-                    input_term = re.sub("( )*(" + tag + ")([ =]+)", "", input_term)
+                    # lettura dei termini
+                    j = 1
+                    while j < int(term_num) + 1:
+                        tag = "MF" + str(j)
+                        input_term = input_var[input_var.find(tag):]
+                        input_term = input_term[:input_term.find("\n")]
+                        input_term = re.sub("( )*(" + tag + ")([ =]+)", "", input_term)
 
-                    idx = input_term.find(",")
-                    term_prop = []
-                    k = 0
-                    while k < 2:
-                        term_prop.append(input_term[:idx - 1].replace("'", ""))
-                        input_term = input_term[idx + 1:]
-                        idx = input_term.find(",", idx)
-                        k += 1
-                    term_prop.append(input_term.replace("[", "").replace("]", "").split(","))
+                        idx = input_term.find(",")
+                        term_prop = []
+                        k = 0
+                        while k < 2:
+                            term_prop.append(input_term[:idx - 1].replace("'", ""))
+                            input_term = input_term[idx + 1:]
+                            idx = input_term.find(",", idx)
+                            k += 1
+                        term_prop.append(input_term.replace("[", "").replace("]", "").split(","))
 
+                        term = fi.termine()
+                        term.nomeV = name_var
+                        term.nomeT = term_prop[0]
+                        term.domX = range_var[0]
+                        term.domY = range_var[1]
+
+                        if term_prop[2][0]:
+                            term.s1 = term_prop[2][0].replace(" ", "")
+                        if term_prop[2][1]:
+                            term.s2 = term_prop[2][1].replace(" ", "")
+                        if term_prop[2][2]:
+                            term.s3 = term_prop[2][2].replace(" ", "")
+                        if term_prop[2][3]:
+                            term.s4 = term_prop[2][3].replace(" ", "")
+
+                        # TODO aggiungere il riconoscimento degli altri tipi ammessi da FISDeT
+                        if term_prop[1] == "trapezoidal":
+                            term.membership = fi.MEMBERSHIP_TRAP
+
+                        fi.termI.append(term)
+                        term_list.append(term)
+                        j += 1
+
+                    var_term_matrix.append(term_list)
+
+                else:
                     term = fi.termine()
                     term.nomeV = name_var
-                    term.nomeT = term_prop[0]
                     term.domX = range_var[0]
                     term.domY = range_var[1]
-
-                    if term_prop[2][0]:
-                        term.s1 = term_prop[2][0].replace(" ", "")
-                    if term_prop[2][1]:
-                        term.s2 = term_prop[2][1].replace(" ", "")
-                    if term_prop[2][2]:
-                        term.s3 = term_prop[2][2].replace(" ", "")
-                    if term_prop[2][3]:
-                        term.s4 = term_prop[2][3].replace(" ", "")
-
-                    # TODO aggiungere il riconoscimento degli altri tipi ammessi da FISDeT
-                    if term_prop[1] == "trapezoidal":
-                        term.membership = fi.MEMBERSHIP_TRAP
-
-                    fi.termI.append(term)
+                    # fi.termI.append(term)
                     term_list.append(term)
+                    var_term_matrix.append(term_list)
+
+                i += 1
+
+            # lista contenente per ogni termine di output il corrispondente nome
+            # E' usata per la generazione delle regole
+            output_term = []
+
+            # lettura della variabile di output
+            i = 1
+            while i < int(num_output) + 1:
+                tag = "[Output" + str(i) + "]"
+                output_var = fis_string[fis_string.find(tag):]
+                output_var = output_var[:output_var.find("\n\n")]
+
+                # lettura del nome
+                name_var = output_var[output_var.find("Name"):]
+                name_var = name_var[:name_var.find("\n")]
+                name_var = re.sub("( )*(Name)([ =]+)", "", name_var).replace("\'", "")
+
+                # lettura del range (dominio)
+                range_var = output_var[output_var.find("Range"):]
+                range_var = range_var[:range_var.find("\n")]
+                range_var = re.sub("( )*(Range)([ =]+)", "", range_var). \
+                    replace("[", "").replace("]", ""). \
+                    split(",", 1)
+
+                g.domX3.setText(range_var[0])
+                g.domY3.setText(range_var[1])
+
+                # lettura di 'classif'
+                classif = output_var[output_var.find("Classif"):]
+                classif = classif[:classif.find("\n")]
+                classif = re.sub("( )*(Classif)([ =]+)", "", classif).replace("\'", "")
+
+                if classif == "yes":
+
+                    # setting dell'interfaccia per la classificazione
+                    importFcl.flagWarning = 1
+                    g.chkclass.setChecked(True)
+                    ou.classificazione()
+                    g.chkclass.setEnabled(False)
+
+                    # lettura del default
+                    default = output_var[output_var.find("DefaultValue"):]
+                    default = default[:default.find("\n")]
+                    default = re.sub("( )*(DefaultValue)([ =]+)", "", default).replace("\'", "")
+                    g.defaultValueText.setText(default)
+
+                    # setting delle classi
+                    j = int(float(range_var[0]))
+                    while j <= int(float(range_var[1])):
+                        name_term = "MF" + str(j) + "_OUT"
+                        g.tabellaO.setItem(j - 1, 0, QtGui.QTableWidgetItem(str(name_term)))
+                        g.tabellaO.setItem(j - 1, 1, QtGui.QTableWidgetItem(str(j)))
+                        g.tabellaO.setItem(j - 1, 2, QtGui.QTableWidgetItem(""))
+                        g.tabellaO.setItem(j - 1, 3, QtGui.QTableWidgetItem(""))
+                        g.tabellaO.setItem(j - 1, 4, QtGui.QTableWidgetItem(""))
+
+                        fo.contaT += 1
+                        output_term.append(name_term)
+                        j += 1
+
+                    g.labelNum.setText(str(j))
+                else:
+                    return
+
+                g.nomeVar3.setText(name_var)
+
+                i += 1
+
+            # lettura delle regole
+            tag = "[Rules]"
+            rules = fis_string[fis_string.find(tag) + tag.__len__() + 1:]
+            rules = rules[:rules.find("\n\n")]
+
+            i = 0
+            rules = rules.split(",\n")
+            while i < int(num_rule):
+
+                rule_line = rules[i]
+                rule_line = rule_line.split(",")
+
+                rule_string = "IF "
+                j = 0
+                while j < int(num_input):
+                    if rule_line[j] != "0":
+                        rule_string += \
+                            "(" + fi.varI[j].nome + " IS " + var_term_matrix[j][int(rule_line[j]) - 1].nomeT + ")"
                     j += 1
 
-                var_term_matrix.append(term_list)
+                    if rule_line[j] == "0":
+                        continue
+                    elif j < int(num_input):
+                        rule_string += " AND "
+                    elif j == int(num_input):
+                        rule_string += " THEN "
+                        rule_string += \
+                            "(" + str(g.nomeVar3.text()) + " IS " + output_term[int(float(rule_line[j])) - 1] + ");"
 
-            else:
-                term = fi.termine()
-                term.nomeV = name_var
-                term.domX = range_var[0]
-                term.domY = range_var[1]
-                fi.termI.append(term)
-                term_list.append(term)
-                var_term_matrix.append(term_list)
+                g.listReg.addItem(rule_string)
+                i += 1
 
-            i += 1
-
-        # lista contenente per ogni termine di output il corrispondente nome
-        # E' usata per la generazione delle regole
-        output_term = []
-
-        # lettura della variabile di output
-        i = 1
-        while i < int(num_output) + 1:
-            tag = "[Output" + str(i) + "]"
-            output_var = fis_string[fis_string.find(tag):]
-            output_var = output_var[:output_var.find("\n\n")]
-
-            # lettura del nome
-            name_var = output_var[output_var.find("Name"):]
-            name_var = name_var[:name_var.find("\n")]
-            name_var = re.sub("( )*(Name)([ =]+)", "", name_var).replace("\'", "")
-
-            # lettura del range (dominio)
-            range_var = output_var[output_var.find("Range"):]
-            range_var = range_var[:range_var.find("\n")]
-            range_var = re.sub("( )*(Range)([ =]+)", "", range_var). \
-                replace("[", "").replace("]", ""). \
-                split(",", 1)
-
-            g.domX3.setText(range_var[0])
-            g.domY3.setText(range_var[1])
-
-            # lettura di 'classif'
-            classif = output_var[output_var.find("Classif"):]
-            classif = classif[:classif.find("\n")]
-            classif = re.sub("( )*(Classif)([ =]+)", "", classif).replace("\'", "")
-
-            if classif == "yes":
-
-                # setting dell'interfaccia per la classificazione
-                importFcl.flagWarning = 1
-                g.chkclass.setChecked(True)
-                ou.classificazione()
-                g.chkclass.setEnabled(False)
-
-                # lettura del default
-                default = output_var[output_var.find("DefaultValue"):]
-                default = default[:default.find("\n")]
-                default = re.sub("( )*(DefaultValue)([ =]+)", "", default).replace("\'", "")
-                g.defaultValueText.setText(default)
-
-                # setting delle classi
-                j = int(float(range_var[0]))
-                while j <= int(float(range_var[1])):
-                    name_term = "MF" + str(j) + "_OUT"
-                    g.tabellaO.setItem(j - 1, 0, QtGui.QTableWidgetItem(str(name_term)))
-                    g.tabellaO.setItem(j - 1, 1, QtGui.QTableWidgetItem(str(j)))
-                    g.tabellaO.setItem(j - 1, 2, QtGui.QTableWidgetItem(""))
-                    g.tabellaO.setItem(j - 1, 3, QtGui.QTableWidgetItem(""))
-                    g.tabellaO.setItem(j - 1, 4, QtGui.QTableWidgetItem(""))
-
-                    fo.contaT += 1
-                    output_term.append(name_term)
-                    j += 1
-
-                g.labelNum.setText(str(j))
-            else:
-                return
-
-            g.nomeVar3.setText(name_var)
-
-            i += 1
-
-        # lettura delle regole
-        tag = "[Rules]"
-        rules = fis_string[fis_string.find(tag) + tag.__len__() + 1:]
-        rules = rules[:rules.find("\n\n")]
-
-        i = 0
-        rules = rules.split(",\n")
-        while i < int(num_rule):
-
-            rule_line = rules[i]
-            rule_line = rule_line.split(",")
-
-            rule_string = "IF "
-            j = 0
-            while j < int(num_input):
-                if rule_line[j] != "0":
-                    rule_string += \
-                        "(" + fi.varI[j].nome + " IS " + var_term_matrix[j][int(rule_line[j]) - 1].nomeT + ")"
-                j += 1
-
-                if rule_line[j] == "0":
-                    continue
-                elif j < int(num_input):
-                    rule_string += " AND "
-                elif j == int(num_input):
-                    rule_string += " THEN "
-                    rule_string += \
-                        "(" + str(g.nomeVar3.text()) + " IS " + output_term[int(float(rule_line[j])) - 1] + ");"
-
-            g.listReg.addItem(rule_string)
-            i += 1
-
-        # controlli per l'interfaccia
-        rule.controllaRegole = 1
-        g.picG_1.setVisible(True)
-        g.picG_2.setVisible(True)
-        g.picG_3.setVisible(True)
-        g.picR_1.setVisible(False)
-        g.picR_2.setVisible(False)
-        g.picR_3.setVisible(False)
-
-    except IOError, ioex:
-        print 'errno:', ioex.errno
-        print 'err code:', errno.errorcode[ioex.errno]
-        g.msg.setText(os.strerror(ioex.errno))
-        g.msg.show()
+            # controlli per l'interfaccia
+            rule.controllaRegole = 1
+            g.picG_1.setVisible(True)
+            g.picG_2.setVisible(True)
+            g.picG_3.setVisible(True)
+            g.picR_1.setVisible(False)
+            g.picR_2.setVisible(False)
+            g.picR_3.setVisible(False)
+        except IOError, ioex:
+            print 'errno:', ioex.errno
+            print 'err code:', errno.errorcode[ioex.errno]
+            g.msg.setText(os.strerror(ioex.errno))
+            g.msg.show()
 
 
-# g.menu.connect(g.tastoImport, QtCore.SIGNAL('clicked()'), importFis)
+g.menu.connect(g.tastoImportFis, QtCore.SIGNAL('clicked()'), importFis)

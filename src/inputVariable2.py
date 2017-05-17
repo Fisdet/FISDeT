@@ -15,6 +15,7 @@ from outputVariable import *
 import inference as inf
 import rule as ru
 import importFcl as im
+import importFis as ifis
 import createFCL as cr
 import random
 
