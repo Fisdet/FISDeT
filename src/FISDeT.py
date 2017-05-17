@@ -57,7 +57,7 @@ frameMenu4.setStyleSheet('color: rgb(61,78,121);font:15px')
 
 frameMenu5 = QtGui.QGroupBox(menu)
 frameMenu5.setGeometry(15, 250, 300, 100)
-frameMenu5.setTitle("Import")
+frameMenu5.setTitle("Import System")
 frameMenu5.setStyleSheet('color: rgb(61,78,121);font:15px')
 
 picR_1 = QtGui.QLabel(menu)
@@ -156,11 +156,17 @@ tastoTest.setGeometry(380, 290, 220, 31)
 tastoTest.setText("TEST")
 tastoTest.setStyleSheet('background-color: rgb(61,78,121);color: rgb(255,255,255);font:10px')
 
-tastoImport = QtGui.QPushButton(menu)
-tastoImport.setIconSize(QtCore.QSize(64, 64))
-tastoImport.setGeometry(60, 290, 220, 31)
-tastoImport.setText("IMPORT SYSTEM")
-tastoImport.setStyleSheet('background-color: rgb(61,78,121);color: rgb(255,255,255);font:10px')
+tastoImportFcl = QtGui.QPushButton(menu)
+tastoImportFcl.setIconSize(QtCore.QSize(64, 64))
+tastoImportFcl.setGeometry(60, 290, 100, 31)
+tastoImportFcl.setText("FROM FCL")
+tastoImportFcl.setStyleSheet('background-color: rgb(61,78,121);color: rgb(255,255,255);font:10px')
+
+tastoImportFis = QtGui.QPushButton(menu)
+tastoImportFis.setIconSize(QtCore.QSize(64, 64))
+tastoImportFis.setGeometry(170, 290, 100, 31)
+tastoImportFis.setText("FROM FIS")
+tastoImportFis.setStyleSheet('background-color: rgb(61,78,121);color: rgb(255,255,255);font:10px')
 
 # first input interface
 widget = QtGui.QWidget()
