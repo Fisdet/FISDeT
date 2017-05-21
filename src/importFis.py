@@ -6,11 +6,9 @@ import outputVariable as ou
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 from PyQt4 import QtCore, QtGui
-import inference as inf
 import outputVariable as fo
 import re
 import importFcl
-import errno
 import os
 import rule
 
@@ -21,11 +19,10 @@ def importFis():
     complete_path = str(ok)
 
     if complete_path != "":
-        inf.percorso = complete_path
         try:
             g.tabellaO.clear()
             fo.contaT = 0
-            out_file = open(inf.percorso, "r")
+            out_file = open(complete_path, "r")
             fis_string = out_file.read()
             out_file.close()
             importFcl.azzera()
@@ -114,18 +111,42 @@ def importFis():
                         term.domX = range_var[0]
                         term.domY = range_var[1]
 
-                        if term_prop[2][0]:
-                            term.s1 = term_prop[2][0].replace(" ", "")
-                        if term_prop[2][1]:
-                            term.s2 = term_prop[2][1].replace(" ", "")
-                        if term_prop[2][2]:
-                            term.s3 = term_prop[2][2].replace(" ", "")
-                        if term_prop[2][3]:
-                            term.s4 = term_prop[2][3].replace(" ", "")
-
-                        # TODO aggiungere il riconoscimento degli altri tipi ammessi da FISDeT
                         if term_prop[1] == "trapezoidal":
                             term.membership = fi.MEMBERSHIP_TRAP
+                            term.s1 = term_prop[2][0].replace(" ", "")
+                            term.s2 = term_prop[2][1].replace(" ", "")
+                            term.s3 = term_prop[2][2].replace(" ", "")
+                            term.s4 = term_prop[2][3].replace(" ", "")
+
+                        elif term_prop[1] == "door":
+                            term.membership = fi.MEMBERSHIP_TRAP
+                            term.s1 = term_prop[2][0].replace(" ", "")
+                            term.s2 = term_prop[2][0].replace(" ", "")
+                            term.s3 = term_prop[2][1].replace(" ", "")
+                            term.s4 = term_prop[2][1].replace(" ", "")
+
+                        elif term_prop[1] == "SemiTrapezoidalInf":
+                            term.membership = fi.MEMBERSHIP_TRAP
+                            term.s1 = term_prop[2][0].replace(" ", "")
+                            term.s2 = term_prop[2][0].replace(" ", "")
+                            term.s3 = term_prop[2][1].replace(" ", "")
+                            term.s4 = term_prop[2][2].replace(" ", "")
+
+                        elif term_prop[1] == "SemiTrapezoidalSup":
+                            term.membership = fi.MEMBERSHIP_TRAP
+                            term.s1 = term_prop[2][0].replace(" ", "")
+                            term.s2 = term_prop[2][1].replace(" ", "")
+                            term.s3 = term_prop[2][2].replace(" ", "")
+                            term.s4 = term_prop[2][2].replace(" ", "")
+
+                        elif term_prop[1] == "triangular":
+                            term.membership = fi.MEMBERSHIP_TRIANG
+                            term.s1 = term_prop[2][0].replace(" ", "")
+                            term.s2 = term_prop[2][1].replace(" ", "")
+                            term.s3 = term_prop[2][2].replace(" ", "")
+
+                        else:
+                            raise Exception("Unsupported membership function!")
 
                         fi.termI.append(term)
                         term_list.append(term)
@@ -205,7 +226,7 @@ def importFis():
 
                     g.labelNum.setText(str(j))
                 else:
-                    return
+                    raise Exception("Classification flag is set to 'No'!")
 
                 g.nomeVar3.setText(name_var)
 
@@ -257,11 +278,38 @@ def importFis():
             g.picR_4.setVisible(True)
             g.picR_6.setVisible(True)
 
-        except IOError, ioex:
-            print 'errno:', ioex.errno
-            print 'err code:', errno.errorcode[ioex.errno]
-            g.msg.setText(os.strerror(ioex.errno))
+        except IOError as error:
+            g.msg.setText(os.strerror(error.errno))
             g.msg.show()
+            resetGui()
 
+        except ValueError as error:
+            print error.message
+            g.msg.setText("An error occured!")
+            g.msg.show()
+            resetGui()
+
+        except Exception as error:
+            g.msg.setText(error.message)
+            g.msg.show()
+            resetGui()
+
+
+def resetGui():
+    rule.controllaRegole = 0
+    g.tabellaO.clear()
+    fo.contaT = 0
+    importFcl.azzera()
+    g.picG_1.setVisible(False)
+    g.picG_2.setVisible(False)
+    g.picG_3.setVisible(False)
+    g.picG_4.setVisible(False)
+    g.picG_6.setVisible(False)
+    g.picR_1.setVisible(True)
+    g.picR_2.setVisible(True)
+    g.picR_3.setVisible(True)
+    g.picR_4.setVisible(True)
+    g.picR_6.setVisible(True)
+    g.chkclass.setEnabled(True)
 
 g.menu.connect(g.tastoImportFis, QtCore.SIGNAL('clicked()'), importFis)
