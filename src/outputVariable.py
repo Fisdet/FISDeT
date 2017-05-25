@@ -783,67 +783,63 @@ def ControlloW3_3():
 
 
 def graficiO():
-        global y1
-        global y2
-        global listaTrianI
-        global rv2
         global contaGraf
-        listaPoly=[]
-        listaSing=[]
-        y1=[]
-        y2=[]
 
-        i=0
-        c=0
-        while i<g.tabellaO.rowCount():
-            if (g.tabellaO.item(i,0)) == None:
-                print "vuoto"
-            else:
-                c=c+1
-            i=i+1
-        i=0
+        graphs = []
+
+        i = 0
+        c = 0
+        while i < g.tabellaO.rowCount():
+            if g.tabellaO.item(i, 0):
+                c += 1
+            i += 1
+        i = 0
+
         while i < c:
+            listaPoly = []
+            y1 = []
 
             # se il termine inserito ha una funzione di membership singleton
-            if str(g.tabellaO.item(i,2).text()) == "" and str(g.tabellaO.item(i,3).text()) == "" and str(g.tabellaO.item(i,4).text()) == "":
-                listaSing.append(float(str(g.tabellaO.item(i,1).text())))
+            if g.chkSing3.isChecked():
+                listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
+                y1.append(0)
+                listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
+                y1.append(1)
 
             # se il termine inserito ha una funzione di membership triangolare
-            elif str(g.tabellaO.item(i,4).text()) == "":
-                listaPoly.append(float(str(g.tabellaO.item(i,1).text())))
+            elif g.chkTriangolo3.isChecked():
+                listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
                 y1.append(0)
-                listaPoly.append(float(str(g.tabellaO.item(i,2).text())))
+                listaPoly.append(float(str(g.tabellaO.item(i, 2).text())))
                 y1.append(1)
-                listaPoly.append(float(str(g.tabellaO.item(i,3).text())))
+                listaPoly.append(float(str(g.tabellaO.item(i, 3).text())))
                 y1.append(0)
 
             # se il termine inserito ha una funzione di membership trapezoidale
             else:
-                listaPoly.append(float(str(g.tabellaO.item(i,1).text())))
+                listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
                 y1.append(0)
-                listaPoly.append(float(str(g.tabellaO.item(i,2).text())))
+                listaPoly.append(float(str(g.tabellaO.item(i, 2).text())))
                 y1.append(1)
-                listaPoly.append(float(str(g.tabellaO.item(i,3).text())))
+                listaPoly.append(float(str(g.tabellaO.item(i, 3).text())))
                 y1.append(1)
-                listaPoly.append(float(str(g.tabellaO.item(i,4).text())))
+                listaPoly.append(float(str(g.tabellaO.item(i, 4).text())))
                 y1.append(0)
-            i=i+1
 
+            graphs.append((listaPoly, y1))
+            i += 1
 
-        i=0
-
-        # plot the function
+        figure.clf()
         ax = figure.add_subplot(111)
-        ax.hold(False)
-        ax.vlines(listaSing, 0, 1)
-        ax.plot(listaPoly, y1)
 
-        canvas.draw()
+        for xx, yy in graphs:
+            ax.plot(xx, yy)
+
+        plt.xlim((float(g.domX3.text()), float(g.domY3.text())))
+
         contaGraf += 1
+        canvas.draw()
 
-        del listaPoly[0:len(listaPoly)]
-        del y1[0:len(y1)]
-        del y2[0:len(y2)]
 
 def classificazione():
     global contaT
@@ -895,7 +891,8 @@ def classificazione():
                 g.nomeVar3.clear()
                 g.labelNum.setText("0")
                 contaT=0
-                plt.xlim(0, 100)
+                graficiO()
+                '''plt.xlim(0, 100)
                 plt.ylim(0, 1.2)
                 plt.savefig(perc+str(contaGraf)+".png")
                 img = Image.open(perc+str(contaGraf)+".png")
@@ -905,7 +902,7 @@ def classificazione():
                 scene.addPixmap(QPixmap(perc+str(contaGraf)+".png"))
                 g.boxGrafico2.setScene(scene)
                 plt.close()
-                os.remove(perc+str(contaGraf)+".png")
+                os.remove(perc+str(contaGraf)+".png")'''
             else:
                 g.chkclass.setChecked(False)
         else:
@@ -947,7 +944,8 @@ def classificazione():
                 g.tastoMenuTest.setGeometry(650, 620, 75, 31)
                 g.frameTestOut.setVisible(False)
                 g.tabInfOut.setVisible(False)
-                plt.xlim(0, 100)
+                graficiO()
+                '''plt.xlim(0, 100)
                 plt.ylim(0, 1.2)
                 plt.savefig(perc+str(contaGraf)+".png")
                 img = Image.open(perc+str(contaGraf)+".png")
@@ -957,7 +955,7 @@ def classificazione():
                 scene.addPixmap(QPixmap(perc+str(contaGraf)+".png"))
                 g.boxGrafico2.setScene(scene)
                 plt.close()
-                os.remove(perc+str(contaGraf)+".png")
+                os.remove(perc+str(contaGraf)+".png")'''
                 flagMod=1
     else:
         if inp.flagWarning==0:
@@ -1002,7 +1000,9 @@ def classificazione():
                 g.nomeVar3.clear()
                 g.labelNum.setText("0")
                 contaT=0
-                plt.xlim(0, 100)
+                graficiO()
+
+                '''plt.xlim(0, 100)
                 plt.ylim(0, 1.2)
                 plt.savefig(perc+str(contaGraf)+".png")
                 img = Image.open(perc+str(contaGraf)+".png")
@@ -1012,23 +1012,23 @@ def classificazione():
                 scene.addPixmap(QPixmap(perc+str(contaGraf)+".png"))
                 g.boxGrafico2.setScene(scene)
                 plt.close()
-                os.remove(perc+str(contaGraf)+".png")
+                os.remove(perc+str(contaGraf)+".png")'''
             else:
                 g.chkclass.setChecked(True)
         else:
             flagMod=1
 
-#Variables
-termO=[]
-contaT=0
-temp=0
-modifica=0
-contaGraf=0
-flagMod=0
-nomeOut=""
-flagRestr=0
+# Variables
+termO = []
+contaT = 0
+temp = 0
+modifica = 0
+contaGraf = 0
+flagMod = 0
+nomeOut = ""
+flagRestr = 0
 
-#Connect
+# Connect
 g.menu.connect(g.tastoOutput, QtCore.SIGNAL('clicked()'), menuWidg3)
 g.outputVariableWidget.connect(g.tastoMenu3, QtCore.SIGNAL('clicked()'), home3)
 g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), caricaDef)

@@ -804,9 +804,6 @@ def addVariabile():
 
 
 def graficiI():
-    global y1
-    global listaTrianI
-    global rv2
     global contaGraf
 
     graphs = []
@@ -831,7 +828,6 @@ def graficiI():
             y1.append(0)
             listaPoly.append(float(str(g.listaTerminiI.item(i, 2).text())))
             y1.append(1)
-            graphs.append((listaPoly, y1))
 
         # test con Z Function
         elif g.chkZFun.isChecked():
@@ -839,7 +835,6 @@ def graficiI():
             y1.append(1)
             listaPoly.append(float(str(g.listaTerminiI.item(i, 2).text())))
             y1.append(0)
-            graphs.append((listaPoly, y1))
 
         # se il termine inserito ha una funzione di membership triangolare
         elif g.chkTriangolo.isChecked():
@@ -849,7 +844,6 @@ def graficiI():
             y1.append(1)
             listaPoly.append(float(str(g.listaTerminiI.item(i, 3).text())))
             y1.append(0)
-            graphs.append((listaPoly, y1))
 
         # se il termine inserito ha una funzione di membership trapezoidale
         elif g.chkTrap.isChecked():
@@ -861,10 +855,9 @@ def graficiI():
             y1.append(1)
             listaPoly.append(float(str(g.listaTerminiI.item(i, 4).text())))
             y1.append(0)
-            graphs.append((listaPoly, y1))
 
+        graphs.append((listaPoly, y1))
         i += 1
-    i = 0
 
     figure.clf()
     ax = figure.add_subplot(111)
@@ -872,8 +865,8 @@ def graficiI():
         ax.plot(xx, yy)
 
     contaGraf += 1
-
     canvas.draw()
+
     '''del listaPoly[0:len(listaPoly)]
     del y1[0:len(y1)]'''
 
