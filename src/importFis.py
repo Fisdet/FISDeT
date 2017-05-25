@@ -49,6 +49,15 @@ def importFis():
             # E' usata per la generazione delle regole
             var_term_matrix = []
 
+            # message dialog to round the values
+            round_box = QtGui.QMessageBox()
+            round_box.setText("Round values")
+            round_box.setInformativeText("Do you want to round the membership value?")
+            round_box.addButton(QtGui.QMessageBox.Yes)
+            round_box.addButton(QtGui.QMessageBox.No)
+            round_box.setDefaultButton(QtGui.QMessageBox.No)
+            user_choise = round_box.exec_() == QtGui.QMessageBox.Yes
+
             # lettura delle variabili di input
             i = 1
             while i < int(num_input) + 1:
@@ -147,6 +156,16 @@ def importFis():
 
                         else:
                             raise Exception("Unsupported membership function!")
+
+                        if user_choise:
+                            if term.s1:
+                                term.s1 = str(round(float(term.s1), 1))
+                            if term.s2:
+                                term.s2 = str(round(float(term.s2), 1))
+                            if term.s3:
+                                term.s3 = str(round(float(term.s3), 1))
+                            if term.s4:
+                                term.s4 = str(round(float(term.s4), 1))
 
                         fi.termI.append(term)
                         term_list.append(term)
