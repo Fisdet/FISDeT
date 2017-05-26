@@ -65,14 +65,26 @@ def creaFcl():
         i=i+1
     i=0
     while i<c:
-        if str(g.tabellaO.item(i,2).text())=="" and str(g.tabellaO.item(i,3).text())=="" and str(g.tabellaO.item(i,4).text())=="":
-                    outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := " + str(g.tabellaO.item(i,1).text())+ ";\n")
-        elif str(g.tabellaO.item(i,3).text())=="" and str(g.tabellaO.item(i,4).text())=="":
-                    outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := (" + str(g.tabellaO.item(i,1).text())+", 0) ("+str(g.tabellaO.item(i,2).text())+", 1) ;\n" )
-        elif str(g.tabellaO.item(i,4).text())=="":
-                    outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := (" + str(g.tabellaO.item(i,1).text())+", 0) ("+str(g.tabellaO.item(i,2).text())+", 1) ("+str(g.tabellaO.item(i,3).text())+", 0) ;\n" )
+        if g.chkSing3.isChecked():
+            outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := "
+                          + str(g.tabellaO.item(i,1).text())+ ";\n")
+        elif g.chkSFun3.isChecked():
+            outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := ("
+                          + str(g.tabellaO.item(i,1).text())+", 0) ("
+                          + str(g.tabellaO.item(i,2).text())+", 1) ;\n" )
+        elif g.chkZFun3.isChecked():
+            outFile.write("\t\tTERM " + str(g.tabellaO.item(i, 0).text()) + " := ("
+                          + str(g.tabellaO.item(i, 1).text()) + ", 1) ("
+                          + str(g.tabellaO.item(i, 2).text()) + ", 0) ;\n")
+        elif g.chkTriangolo3.isChecked():
+            outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := ("
+                          + str(g.tabellaO.item(i,1).text())+", 0) ("+str(g.tabellaO.item(i,2).text())
+                          + ", 1) ("+str(g.tabellaO.item(i,3).text())+", 0) ;\n" )
         else:
-                    outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := (" + str(g.tabellaO.item(i,1).text())+", 0) ("+str(g.tabellaO.item(i,2).text())+", 1) ("+str(g.tabellaO.item(i,3).text())+", 1) ("+ str(g.tabellaO.item(i,4).text())+", 0) ;\n" )
+            outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := ("
+                          + str(g.tabellaO.item(i,1).text())+", 0) ("+str(g.tabellaO.item(i,2).text())
+                          + ", 1) ("+str(g.tabellaO.item(i,3).text())+", 1) ("
+                          + str(g.tabellaO.item(i,4).text())+", 0) ;\n" )
         i=i+1
     if g.chkclass.isChecked()==True:
             outFile.write("\t\tACCU:"+g.comboAccu.currentText()+";\n")

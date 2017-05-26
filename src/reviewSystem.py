@@ -76,6 +76,18 @@ def review():
                 str(g.tabellaO.item(i, 0).text()) + " (" + str(g.tabellaO.item(i, 1).text()) + ", 0) " + " (" + str(
                     g.tabellaO.item(i, 2).text()) + ", 1) " + " (" + str(g.tabellaO.item(i, 3).text()) + ", 0) ")
 
+        #SFunction
+        elif g.chkSFun3.isChecked():
+            g.listWvarO.addItem(
+                str(g.tabellaO.item(i, 0).text()) + " (" + str(g.tabellaO.item(i, 1).text()) + ", 0) " + " (" + str(
+                    g.tabellaO.item(i, 2).text()) + ", 1)")
+
+        #ZFunction
+        elif g.chkZFun3.isChecked():
+            g.listWvarO.addItem(
+                str(g.tabellaO.item(i, 0).text()) + " (" + str(g.tabellaO.item(i, 1).text()) + ", 1) " + " (" + str(
+                    g.tabellaO.item(i, 2).text()) + ", 0)")
+
         #singleton
         else:
             g.listWvarO.addItem(str(g.tabellaO.item(i, 0).text()) + " " + str(g.tabellaO.item(i, 1).text()))

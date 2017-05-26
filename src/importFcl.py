@@ -298,6 +298,7 @@ def importFcl():
                         g.chkSing3.setEnabled(False)
                         fo.generaFunzO()
                     elif occ == 2:
+                        number = line[line.find(",")+1:line.find(")")]
                         idx15 = line.find(" (")
                         idx16 = line.find(",")
                         t1 = line[idx15 + 2:idx16]
@@ -319,6 +320,14 @@ def importFcl():
                         g.chkTriangolo3.setEnabled(False)
                         g.chkSing3.setEnabled(False)
                         fo.generaFunzO()
+
+                        if int(number) == 0:
+                            g.chkZFun3.setEnabled(False)
+                            g.chkSFun3.setChecked(True)
+                        elif int(number) == 1:
+                            g.chkSFun3.setEnabled(False)
+                            g.chkZFun3.setChecked(True)
+
                     elif occ == 0:
                         idx24 = line.find(";")
                         t1 = line[len(termine) + 11:idx24]

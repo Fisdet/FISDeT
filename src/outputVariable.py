@@ -37,18 +37,6 @@ layout.addWidget(canvas)
 g.boxGrafico2.setLayout(layout)
 
 
-def controlloTrian():
-    if g.chkTriangolo.isChecked():
-        return 1
-    else:
-        return 0
-
-def controlloTrap():
-    if g.chkTrap.isChecked():
-        return 1
-    else:
-        return 0
-
 def caricaDef():
     g.comboDefuzzy.clear()
     if g.chkSing3.isChecked():
@@ -97,25 +85,17 @@ def generaFunzO():
         g.R3_3.show()
         g.R4_3.show()
         colonna = colonna + 150
-
-
-def controlloSing_3():
-    if g.chkSing3.isChecked():
-        return 1
-    else:
-        return 0
-
-def controlloTrian_3():
-    if g.chkTriangolo3.isChecked():
-        return 1
-    else:
-        return 0
-
-def controlloTrap_3():
-    if g.chkTrap3.isChecked():
-        return 1
-    else:
-        return 0
+    elif g.chkSFun3.isChecked() or g.chkZFun3.isChecked():
+        g.NomeFuzzy3.text()
+        g.R1_3.text()
+        g.R2_3.text()
+        g.tastoAzz3.show()
+        g.NomeFuzzy3.show()
+        g.R1_3.show()
+        g.R2_3.show()
+        g.R3_3.setVisible(False)
+        g.R4_3.setVisible(False)
+        colonna = colonna + 150
 
 def addVarO():
   global contaT
@@ -396,15 +376,13 @@ def addTermO():
     g.tastoAzz3_2.setVisible(False)
     g.tastoAzz3.setVisible(True)
     if modifica == 0:
-        if g.chkTrap3.isChecked():
-            g.chkTriangolo3.setEnabled(False)
-            g.chkSing3.setEnabled(False)
-        elif g.chkTriangolo3.isChecked():
-            g.chkTrap3.setEnabled(False)
-            g.chkSing3.setEnabled(False)
-        else:
-            g.chkTriangolo3.setEnabled(False)
-            g.chkTrap3.setEnabled(False)
+
+        g.chkTriangolo3.setEnabled(g.chkTriangolo3.isChecked())
+        g.chkTrap3.setEnabled(g.chkTrap3.isChecked())
+        g.chkSing3.setEnabled(g.chkSing3.isChecked())
+        g.chkZFun3.setEnabled(g.chkZFun3.isChecked())
+        g.chkSFun3.setEnabled(g.chkSFun3.isChecked())
+
         flagRestr=1
         g.tabellaO.setItem(contaT,0,QTableWidgetItem(g.NomeFuzzy3.text()))
         g.tabellaO.setItem(contaT,1,QTableWidgetItem(g.R1_3.text()))
@@ -543,6 +521,8 @@ def deleteTermO():
     g.chkTriangolo3.setEnabled(True)
     g.chkTrap3.setEnabled(True)
     g.chkSing3.setEnabled(True)
+    g.chkZFun3.setEnabled(True)
+    g.chkSFun3.setEnabled(True)
     i=0
     cotare=g.listReg.count()
     flagRestr=1
@@ -692,7 +672,7 @@ def ControlloW3():
                     g.domX3.text()) > float(g.domY3.text())):
             g.msg.setText("Wrong variable domain field/empty field")
             g.msg.show()
-        if (controlloSing_3() == 1):
+        if g.chkSing3.isChecked():
             if (is_numberF(str(g.R1_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
                         g.R1_3.text()) > float(g.domY3.text()) or g.R1_3.text() == ""):
                 g.msg.setText("Wrong term domain field/empty field ")
@@ -702,7 +682,7 @@ def ControlloW3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
-        elif (controlloTrian_3() == 1):
+        elif g.chkTriangolo3.isChecked():
             if (is_numberF(str(g.R1_3.text())) == False or is_numberF(str(g.R2_3.text())) == False or is_numberF(
                         str(g.R3_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
                         g.R3_3.text()) > float(
@@ -716,14 +696,25 @@ def ControlloW3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
-        elif (controlloTrap_3() == 1):
-            if (is_numberF(str(g.R2_3.text())) == False or is_numberF(str(g.R3_3.text())) == False or is_numberF(
-                        str(g.R4_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
-                        g.R4_3.text()) > float(
-                        g.domY3.text()) or g.R1_3.text() == "" or g.R2_3.text() == "" or g.R3_3.text() == "" or g.R4_3.text() == "" or is_numberF(
-                        str(g.R1_3.text())) == False or float(g.R1_3.text()) > float(g.R2_3.text()) or float(
-                        g.R2_3.text()) > float(g.R3_3.text()) or float(g.R3_3.text()) > float(g.R4_3.text()) or float(
-                        g.R1_3.text()) > float(g.R4_3.text())):
+        elif g.chkTrap3.isChecked():
+            if (is_numberF(str(g.R2_3.text())) == False or is_numberF(str(g.R3_3.text())) == False
+                or is_numberF(str(g.R4_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text())
+                or float(g.R4_3.text()) > float(g.domY3.text()) or g.R1_3.text() == "" or g.R2_3.text() == ""
+                or g.R3_3.text() == "" or g.R4_3.text() == "" or is_numberF(str(g.R1_3.text())) == False
+                or float(g.R1_3.text()) > float(g.R2_3.text()) or float(g.R2_3.text()) > float(g.R3_3.text())
+                or float(g.R3_3.text()) > float(g.R4_3.text()) or float(g.R1_3.text()) > float(g.R4_3.text())):
+                g.msg.setText("Wrong term domain field/empty field")
+                g.msg.show()
+            else:
+                addTermO()
+                g.labelAddTerm3.setText("ADD TERM:")
+                g.tastoAzz3.setIcon(g.iconaPiu)
+                g.tastoAzz3_2.setIcon(g.iconaPiu)
+        elif g.chkSFun3.isChecked() or g.chkZFun3.isChecked():
+            if not is_numberF(str(g.R1_3.text())) or not is_numberF(str(g.R2_3.text())) \
+                or float(g.R1_3.text()) > float(g.R2_3.text()) or float(g.R2_3.text()) > float(g.domY3.text()) \
+                or float(g.R1_3.text()) < float(g.domX3.text()):
+
                 g.msg.setText("Wrong term domain field/empty field")
                 g.msg.show()
             else:
@@ -741,7 +732,7 @@ def ControlloW3_3():
                     g.domX3.text()) > float(g.domY3.text())):
             g.msg.setText("Wrong variable domain field/empty field")
             g.msg.show()
-        if (controlloSing_3() == 1):
+        if g.chkSing3.isChecked():
             if (is_numberF(str(g.R1_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
                         g.R1_3.text()) > float(g.domY3.text()) or g.R1_3.text() == ""):
                 g.msg.setText("Wrong term domain field/empty field ")
@@ -751,7 +742,7 @@ def ControlloW3_3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
-        elif (controlloTrian_3() == 1):
+        elif g.chkTriangolo3.isChecked():
             if (is_numberF(str(g.R1_3.text())) == False or is_numberF(str(g.R2_3.text())) == False or is_numberF(
                         str(g.R3_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
                         g.R3_3.text()) > float(
@@ -765,14 +756,13 @@ def ControlloW3_3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
-        elif (controlloTrap_3() == 1):
-            if (is_numberF(str(g.R2_3.text())) == False or is_numberF(str(g.R3_3.text())) == False or is_numberF(
-                        str(g.R4_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text()) or float(
-                        g.R4_3.text()) > float(
-                        g.domY3.text()) or g.R1_3.text() == "" or g.R2_3.text() == "" or g.R3_3.text() == "" or g.R4_3.text() == "" or is_numberF(
-                        str(g.R1_3.text())) == False or float(g.R1_3.text()) > float(g.R2_3.text()) or float(
-                        g.R2_3.text()) > float(g.R3_3.text()) or float(g.R3_3.text()) > float(g.R4_3.text()) or float(
-                        g.R1_3.text()) > float(g.R4_3.text())):
+        elif g.chkTrap3.isChecked():
+            if (is_numberF(str(g.R2_3.text())) == False or is_numberF(str(g.R3_3.text())) == False
+                or is_numberF(str(g.R4_3.text())) == False or float(g.R1_3.text()) < float(g.domX3.text())
+                or float(g.R4_3.text()) > float(g.domY3.text()) or g.R1_3.text() == "" or g.R2_3.text() == ""
+                or g.R3_3.text() == "" or g.R4_3.text() == "" or is_numberF(str(g.R1_3.text())) == False
+                or float(g.R1_3.text()) > float(g.R2_3.text()) or float(g.R2_3.text()) > float(g.R3_3.text())
+                or float(g.R3_3.text()) > float(g.R4_3.text()) or float(g.R1_3.text()) > float(g.R4_3.text())):
                 g.msg.setText("Wrong term domain field/empty field")
                 g.msg.show()
             else:
@@ -780,7 +770,18 @@ def ControlloW3_3():
                 g.labelAddTerm3.setText("ADD TERM:")
                 g.tastoAzz3.setIcon(g.iconaPiu)
                 g.tastoAzz3_2.setIcon(g.iconaPiu)
+        elif g.chkZFun3.isChecked() or g.chkSFun3.isChecked():
+            if not is_numberF(str(g.R1_3.text())) or not is_numberF(str(g.R2_3.text())) \
+                    or float(g.R1_3.text()) > float(g.R2_3.text()) or float(g.R2_3.text()) > float(g.domY3.text()) \
+                    or float(g.R1_3.text()) < float(g.domX3.text()):
 
+                g.msg.setText("Wrong term domain field/empty field")
+                g.msg.show()
+            else:
+                modTermO()
+                g.labelAddTerm3.setText("ADD TERM:")
+                g.tastoAzz3.setIcon(g.iconaPiu)
+                g.tastoAzz3_2.setIcon(g.iconaPiu)
 
 def graficiO():
         global contaGraf
@@ -799,8 +800,22 @@ def graficiO():
             listaPoly = []
             y1 = []
 
+            # se il termine inserito ha una funzione di membership S
+            if g.chkSFun3.isChecked():
+                listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
+                y1.append(0)
+                listaPoly.append(float(str(g.tabellaO.item(i, 2).text())))
+                y1.append(1)
+
+            # se il termine inserito ha una funzione di membership Z
+            elif g.chkZFun3.isChecked():
+                listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
+                y1.append(1)
+                listaPoly.append(float(str(g.tabellaO.item(i, 2).text())))
+                y1.append(0)
+
             # se il termine inserito ha una funzione di membership singleton
-            if g.chkSing3.isChecked():
+            elif g.chkSing3.isChecked():
                 listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
                 y1.append(0)
                 listaPoly.append(float(str(g.tabellaO.item(i, 1).text())))
@@ -852,12 +867,14 @@ def classificazione():
                 g.chkTrap3.setVisible(False)
                 g.chkSing3.setVisible(False)
                 g.chkTriangolo3.setVisible(False)
+                g.chkZFun3.setVisible(False)
+                g.chkSFun3.setVisible(False)
                 g.domX3.setVisible(False)
                 g.domY3.setVisible(False)
                 g.boxGrafico2.setVisible(False)
                 g.comboDefuzzy.setVisible(False)
                 g.NomeFuzzy3.setVisible(True)
-                g.NomeFuzzy3.setGeometry(85, 175, 157, 21)
+                g.NomeFuzzy3.setGeometry(85, 205, 157, 21)
                 g.labelDefault.setVisible(True)
                 g.defaultValueText.setVisible(True)
                 g.labelNumClass.setVisible(True)
@@ -892,29 +909,20 @@ def classificazione():
                 g.labelNum.setText("0")
                 contaT=0
                 graficiO()
-                '''plt.xlim(0, 100)
-                plt.ylim(0, 1.2)
-                plt.savefig(perc+str(contaGraf)+".png")
-                img = Image.open(perc+str(contaGraf)+".png")
-                img = img.resize((500,195), PIL.Image.ANTIALIAS)
-                img.save(perc+str(contaGraf)+".png")
-                scene = QGraphicsScene()
-                scene.addPixmap(QPixmap(perc+str(contaGraf)+".png"))
-                g.boxGrafico2.setScene(scene)
-                plt.close()
-                os.remove(perc+str(contaGraf)+".png")'''
             else:
                 g.chkclass.setChecked(False)
         else:
                 g.chkTrap3.setVisible(False)
                 g.chkSing3.setVisible(False)
                 g.chkTriangolo3.setVisible(False)
+                g.chkSFun3.setVisible(False)
+                g.chkZFun3.setVisible(False)
                 g.domX3.setVisible(False)
                 g.domY3.setVisible(False)
                 g.boxGrafico2.setVisible(False)
                 g.comboDefuzzy.setVisible(False)
                 g.NomeFuzzy3.setVisible(True)
-                g.NomeFuzzy3.setGeometry(85, 175, 157, 21)
+                g.NomeFuzzy3.setGeometry(85, 205, 157, 21)
                 g.labelDefault.setVisible(True)
                 g.defaultValueText.setVisible(True)
                 g.labelNumClass.setVisible(True)
@@ -945,17 +953,6 @@ def classificazione():
                 g.frameTestOut.setVisible(False)
                 g.tabInfOut.setVisible(False)
                 graficiO()
-                '''plt.xlim(0, 100)
-                plt.ylim(0, 1.2)
-                plt.savefig(perc+str(contaGraf)+".png")
-                img = Image.open(perc+str(contaGraf)+".png")
-                img = img.resize((500,195), PIL.Image.ANTIALIAS)
-                img.save(perc+str(contaGraf)+".png")
-                scene = QGraphicsScene()
-                scene.addPixmap(QPixmap(perc+str(contaGraf)+".png"))
-                g.boxGrafico2.setScene(scene)
-                plt.close()
-                os.remove(perc+str(contaGraf)+".png")'''
                 flagMod=1
     else:
         if inp.flagWarning==0:
@@ -967,12 +964,16 @@ def classificazione():
                 g.chkTrap3.setEnabled(True)
                 g.chkTriangolo3.setEnabled(True)
                 g.chkSing3.setEnabled(True)
+                g.chkSFun3.setEnabled(True)
+                g.chkZFun3.setEnabled(True)
+                g.chkSFun3.setVisible(True)
+                g.chkZFun3.setVisible(True)
                 g.domX3.setVisible(True)
                 g.domY3.setVisible(True)
                 g.boxGrafico2.setVisible(True)
                 g.comboDefuzzy.setVisible(True)
                 g.NomeFuzzy3.setVisible(False)
-                g.NomeFuzzy3.setGeometry(85, 160, 157, 21)
+                g.NomeFuzzy3.setGeometry(85, 185, 157, 21)
                 g.labelDefault.setVisible(False)
                 g.defaultValueText.setVisible(False)
                 g.labelDefuzzy.setVisible(True)
@@ -1034,9 +1035,13 @@ g.outputVariableWidget.connect(g.tastoMenu3, QtCore.SIGNAL('clicked()'), home3)
 g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), caricaDef)
 g.outputVariableWidget.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), caricaDef)
 g.outputVariableWidget.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), caricaDef)
+g.outputVariableWidget.connect(g.chkZFun3, QtCore.SIGNAL('clicked()'), caricaDef)
+g.outputVariableWidget.connect(g.chkSFun3, QtCore.SIGNAL('clicked()'), caricaDef)
 g.outputVariableWidget.connect(g.chkTrap3, QtCore.SIGNAL('clicked()'), generaFunzO)
 g.outputVariableWidget.connect(g.chkTriangolo3, QtCore.SIGNAL('clicked()'), generaFunzO)
 g.outputVariableWidget.connect(g.chkSing3, QtCore.SIGNAL('clicked()'), generaFunzO)
+g.outputVariableWidget.connect(g.chkZFun3, QtCore.SIGNAL('clicked()'), generaFunzO)
+g.outputVariableWidget.connect(g.chkSFun3, QtCore.SIGNAL('clicked()'), generaFunzO)
 g.outputVariableWidget.connect(g.tastoAgg3, QtCore.SIGNAL('clicked()'), addVarO)
 g.outputVariableWidget.connect(g.tastoAzz3, QtCore.SIGNAL('clicked()'), ControlloW3)
 g.outputVariableWidget.connect(g.tastoModTermO, QtCore.SIGNAL('clicked()'), modVarO)
