@@ -908,7 +908,7 @@ def classificazione():
                 g.nomeVar3.clear()
                 g.labelNum.setText("0")
                 contaT=0
-                graficiO()
+                #graficiO()
             else:
                 g.chkclass.setChecked(False)
         else:
@@ -952,7 +952,7 @@ def classificazione():
                 g.tastoMenuTest.setGeometry(650, 620, 75, 31)
                 g.frameTestOut.setVisible(False)
                 g.tabInfOut.setVisible(False)
-                graficiO()
+                #graficiO()
                 flagMod=1
     else:
         if inp.flagWarning==0:
@@ -1002,18 +1002,6 @@ def classificazione():
                 g.labelNum.setText("0")
                 contaT=0
                 graficiO()
-
-                '''plt.xlim(0, 100)
-                plt.ylim(0, 1.2)
-                plt.savefig(perc+str(contaGraf)+".png")
-                img = Image.open(perc+str(contaGraf)+".png")
-                img = img.resize((500,195), PIL.Image.ANTIALIAS)
-                img.save(perc+str(contaGraf)+".png")
-                scene = QGraphicsScene()
-                scene.addPixmap(QPixmap(perc+str(contaGraf)+".png"))
-                g.boxGrafico2.setScene(scene)
-                plt.close()
-                os.remove(perc+str(contaGraf)+".png")'''
             else:
                 g.chkclass.setChecked(True)
         else:
