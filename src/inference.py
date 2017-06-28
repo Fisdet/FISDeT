@@ -38,14 +38,17 @@ def apriInference():
         g.tabInfOut.setHorizontalHeaderItem(0, nomeO)
         g.tabInfOut.horizontalHeader().setDefaultSectionSize(119)
         i = 0
+        dummy = False
         conta = 0
         while i < len(fi.varI):
             j = 0
-            while j < len(fi.termI):
+            while j < len(fi.termI) and not dummy:
                 if fi.varI[i].getNome() == fi.termI[j].getNomev():
-                    conta = conta + 1
+                    conta += 1
+                    dummy = fi.termI[j].membership == ""
                 j = j + 1
-            if conta == 0:
+
+            if dummy or conta == 0:
                 boxT = QtGui.QLineEdit(g.testWidget)
                 boxT.setGeometry(90, 150, 121, 21)
                 boxT.setStyleSheet('color: rgb(61,78,121);background-color: rgb(231,231,231);')
@@ -55,6 +58,7 @@ def apriInference():
                 nome = QTableWidgetItem(fi.varI[i].getNome())
                 g.tabInf.setHorizontalHeaderItem(i, nome)
                 g.tabInf.cellWidget(0, i).setEnabled(False)
+                dummy = False
             else:
                 boxT = QtGui.QLineEdit(g.testWidget)
                 boxT.setGeometry(90, 150, 121, 21)

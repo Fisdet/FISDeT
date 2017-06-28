@@ -178,7 +178,7 @@ def importFis():
                     term.nomeV = name_var
                     term.domX = range_var[0]
                     term.domY = range_var[1]
-                    # fi.termI.append(term)
+                    fi.termI.append(term)
                     term_list.append(term)
                     var_term_matrix.append(term_list)
 
