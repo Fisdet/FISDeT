@@ -65,18 +65,18 @@ def creaFcl():
         i=i+1
     i=0
     while i<c:
-        if (g.chkSing3.isVisible() and g.chkSing3.isChecked()) or g.chkclass.isChecked():
+        if g.chkSing3.isChecked() or g.chkclass.isChecked():
             outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := "
                           + str(g.tabellaO.item(i,1).text())+ ";\n")
-        elif g.chkSFun3.isVisible() and g.chkSFun3.isChecked():
+        elif g.chkSFun3.isChecked():
             outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := ("
                           + str(g.tabellaO.item(i,1).text())+", 0) ("
                           + str(g.tabellaO.item(i,2).text())+", 1) ;\n" )
-        elif g.chkZFun3.isVisible() and g.chkZFun3.isChecked():
+        elif g.chkZFun3.isChecked():
             outFile.write("\t\tTERM " + str(g.tabellaO.item(i, 0).text()) + " := ("
                           + str(g.tabellaO.item(i, 1).text()) + ", 1) ("
                           + str(g.tabellaO.item(i, 2).text()) + ", 0) ;\n")
-        elif g.chkTriangolo3.isVisible() and g.chkTriangolo3.isChecked():
+        elif g.chkTriangolo3.isChecked():
             outFile.write("\t\tTERM "+str(g.tabellaO.item(i,0).text())+" := ("
                           + str(g.tabellaO.item(i,1).text())+", 0) ("+str(g.tabellaO.item(i,2).text())
                           + ", 1) ("+str(g.tabellaO.item(i,3).text())+", 0) ;\n" )
